@@ -7,33 +7,58 @@
 using namespace ygl;
 
 void add_instance(scene* scn, const std::string& name, const frame3f& f,
-                  shape* shp) {
+                  obj_shape shps,material* mat) {
+    auto sh = new shape();
+    sh->name = name;
+    sh->triangles = shps.triangles;
+    sh->texcoord = shps.texcoord;
+    sh->points = shps.points;
+    sh->pos = shps.pos;
+    sh->mat = mat;
+    scn->shapes.push_back(sh);
 
-
-    scn->materials.push_back(shp->mat);
-    scn->shapes.push_back(shp);
-    auto ist = new instance;
+    auto ist = new instance();
     ist->name = name;
-    ist->shp = shp;
+    ist->shp = sh;
     ist->frame = f;
     scn->instances.push_back(ist);
 }
 
 
-void load_and_add_to_scen (const string& filename, scene *scene) {
-    auto obj = load_scene(filename);
-    print("{}", obj->shapes.at(0)->);
+void load_and_add_to_scene (const string& filename, scene *scene) {
+    auto object = load_obj(filename);
 
-    add_instance(scene,
-                 "Object:"+ to_string(scene->instances.size()),
-                 make_frame_fromz({-1.25f, 1, 0}, {0, 0, 1}),
-                 obj->shapes.at(0));
+    auto map = std::map<string, material*>();
+
+    for (auto mat : object->materials) {
+        auto mater = new material();
+        mater->name = mat->name;
+        mater->kd = mat->kd;
+        map[mat->name] = mater;
+        scene->materials.push_back(mater);
+    }
+
+    for (auto obj :  object->objects) {
+        for (auto mesh : get_mesh(object,*obj,false)->shapes) {
+
+            add_instance(scene,
+                         "Object:" + to_string(scene->instances.size()),
+                         identity_frame3f,
+                         mesh,
+                         map[mesh.matname]);
+        }
+    }
+
+
 
 }
 
 
 int main () {
     auto scen = new scene();
+
+
+
 
     // add light
     auto lshp = new shape{"light"};
@@ -71,10 +96,8 @@ int main () {
     scen->shapes.push_back(shp);
     scen->instances.push_back(new instance{"floor", identity_frame3f, shp});
 
+    load_and_add_to_scene("Models/modularBuildings_010.obj",scen);
 
-
-
-    load_and_add_to_scen("Models/modularBuildings_001.obj",scen);
     save_scene("./file.obj",scen,save_options());
 }
 
