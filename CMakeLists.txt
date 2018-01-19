@@ -64,11 +64,13 @@ add_executable(ytestgen apps/ytestgen.cpp yocto/yocto_gl.h)
 add_executable(ytrace apps/ytrace.cpp yocto/yocto_gl.h)
 add_executable(yscnproc apps/yscnproc.cpp yocto/yocto_gl.h)
 add_executable(yimproc apps/yimproc.cpp yocto/yocto_gl.h)
+add_executable(build_generator apps/build_generator.cpp yocto/yocto_gl.h)
 
 target_link_libraries(ytestgen yocto_gl)
 target_link_libraries(ytrace yocto_gl)
 target_link_libraries(yscnproc yocto_gl)
 target_link_libraries(yimproc yocto_gl)
+target_link_libraries(build_generator yocto_gl)
 
 if(YOCTO_OPENGL)
     add_executable(yview apps/yview.cpp yocto/yocto_gl.h)
