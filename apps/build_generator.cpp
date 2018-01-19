@@ -25,31 +25,28 @@ void add_instance(scene* scn, const std::string& name, const frame3f& f,
 }
 
 
-void load_and_add_to_scene (const string& filename, scene *scene) {
+void load_and_add_to_scene (const string& filename, scene *scene, frame3f frame,
+                            std::map<string, material*> *mapMat,
+                            std::map<string, shape*> *mapShape) {
     auto object = load_obj(filename);
-
-    auto map = std::map<string, material*>();
-
     for (auto mat : object->materials) {
+        if ((*mapMat)[mat->name] != nullptr ) continue;
         auto mater = new material();
         mater->name = mat->name;
         mater->kd = mat->kd;
-        map[mat->name] = mater;
+        (*mapMat)[mat->name] = mater;
         scene->materials.push_back(mater);
     }
 
     for (auto obj :  object->objects) {
         for (auto mesh : get_mesh(object,*obj,false)->shapes) {
-
             add_instance(scene,
                          "Object:" + to_string(scene->instances.size()),
-                         identity_frame3f,
+                         frame,
                          mesh,
-                         map[mesh.matname]);
+                         (*mapMat)[mesh.matname]);
         }
     }
-
-
 
 }
 
@@ -57,8 +54,8 @@ void load_and_add_to_scene (const string& filename, scene *scene) {
 int main () {
     auto scen = new scene();
 
-
-
+    auto mapMat = new std::map<string, material*>();
+    auto mapShape = new std::map<string, shape*>();
 
     // add light
     auto lshp = new shape{"light"};
@@ -96,7 +93,16 @@ int main () {
     scen->shapes.push_back(shp);
     scen->instances.push_back(new instance{"floor", identity_frame3f, shp});
 
-    load_and_add_to_scene("Models/modularBuildings_010.obj",scen);
+    auto frame1 = frame3f{{1,0,0}, {0,1,0}, {0,0,1},{0,0.2,0}};
+    auto frame2 = frame3f{{1,0,0},{0,1,0},{0,0,1},{0,0.4,0}};
+    auto frame3 = frame3f{{}};
+    auto frame4 = frame3f{{}};
+
+    load_and_add_to_scene("Models/modularBuildings_010.obj",scen, identity_frame3f , mapMat,mapShape);
+    load_and_add_to_scene("Models/modularBuildings_010.obj",scen, frame2 , mapMat,mapShape);
+    load_and_add_to_scene("Models/modularBuildings_003.obj",scen, frame1, mapMat,mapShape);
+    load_and_add_to_scene("Models/modularBuildings_004.obj",scen, identity_frame3f, mapMat,mapShape);
+    load_and_add_to_scene("Models/modularBuildings_005.obj",scen, identity_frame3f, mapMat,mapShape);
 
     save_scene("./file.obj",scen,save_options());
 }

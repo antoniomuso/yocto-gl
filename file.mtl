@@ -23,3 +23,13 @@ newmtl Green
   Kd 0.541176 0.709804 0.286275
   Ns 2e+16
 
+newmtl Brick
+  illum 2
+  Kd 0.917647 0.898039 0.811765
+  Ns 2e+16
+
+newmtl FrontColor
+  illum 2
+  Kd 1 1 1
+  Ns 2e+16
+
