@@ -8,7 +8,7 @@ using namespace ygl;
 
 int main () {
     auto vettore = vec3f {0,0,0};
-    
+
     print("{} {}", vettore, vettore);
 
 
