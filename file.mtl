@@ -1,0 +1,16 @@
+newmtl light
+  illum 2
+  Ke 100 100 100
+  Ns 2e+16
+
+newmtl floor
+  illum 2
+  Kd 0.2 0.2 0.2
+  Ns 2e+16
+
+newmtl Brick
+  illum 2
+  Kd 0.917647 0.898039 0.811765
+  Ks 0.33 0.33 0.33
+  Ns 1
+
