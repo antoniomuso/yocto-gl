@@ -6,6 +6,8 @@
 #include "../yocto/yocto_gl.h"
 using namespace ygl;
 
+
+
 enum Position {
     Left,
     Right,
@@ -24,6 +26,7 @@ struct node {
     bool isTerminal = false;
     vector<vector<edge>> adj;
     vector<shape*> shapes;
+    long graphPos = -1;
 };
 
 struct  Graph {
@@ -47,6 +50,7 @@ void add_node_to_scene (scene* scn, const node& nod, const frame3f& f) {
         add_instance(scn,"Instance:" + to_string(scn->instances.size()), f,shape);
     }
 }
+
 
 // Create node and load it shape to scene
 node loadNode(const string &filename, scene *scene,
@@ -86,16 +90,36 @@ node loadNode(const string &filename, scene *scene,
     return nod;
 }
 
+void add_once_node (node& nod, node& nod1, vec3f constValue ,Graph* graph ) {
+    if (nod1.graphPos == -1) {
+        nod1.graphPos = graph->nodes.size();
+        graph->nodes.push_back(nod1);
+    }
+    if (nod.graphPos == -1) {
+        nod.graphPos = graph->nodes.size();
+        graph->nodes.push_back(nod);
+    }
+    // prendo il nodo appena creato
+    auto node = graph->nodes.at(nod.graphPos);
+    auto node1 = graph->nodes.at(nod1.graphPos);
+
+    //Inserisco un nuovo vettore di archi
+    node.adj.push_back(vector<edge>());
+    //Inserisco dentro il vettore di archi l'arco con il nodo da aggiungere
+    node.adj.at(node.adj.size()-1).push_back(edge{node1.graphPos,constValue});
+
+    // Mi assicuro che il nodo venga salvato
+    graph->nodes.at(node.graphPos) = node;
+    nod.graphPos = node.graphPos;
+    nod1.graphPos = node1.graphPos;
+}
+
+
 Graph* build_graph_houses(scene* scen, std::map<string, material*>* mapMat) {
     auto graph = new Graph();
 
     auto startNode = node{};
-    startNode.adj.push_back(vector<edge>());
-    startNode.adj.push_back(vector<edge>());
 
-    startNode.adj.push_back(vector<edge>());
-    startNode.adj.push_back(vector<edge>());
-    startNode.adj.push_back(vector<edge>());
 
 
     // load houses
@@ -109,32 +133,23 @@ Graph* build_graph_houses(scene* scen, std::map<string, material*>* mapMat) {
 
     auto nr2 = loadNode("Models/modularBuildings_063.obj", scen, mapMat);
 
+    /*
     startNode.adj.at(0).push_back(edge{1,{0,0,0}});
     startNode.adj.at(1).push_back(edge{2,{0,0,0}});
-
+     *(
     /*
     startNode.adj.at(2).push_back(edge{2,{0,0,0}});
     startNode.adj.at(3).push_back(edge{2,{0,0,0}});
     startNode.adj.at(4).push_back(edge{2,{0,0,0}});
      */
+    add_once_node(startNode,n,{0,0,0},graph);
+    add_once_node(startNode,n1,{0,0,0},graph);
 
-
-
-
-    // load to graph
-    n.adj.push_back(vector<edge>());
-    n.adj.push_back(vector<edge>());
-    n.adj.at(0).push_back(edge{3,{0,0.8,0}});
-    n.adj.at(1).push_back(edge{2,{0,0.8,0}});
-
-    // load to graph
-    n1.adj.push_back(vector<edge>());
-    n1.adj.at(0).push_back(edge{3,{0,0.6,0}});
-
-    graph->nodes.push_back(startNode);
-    graph->nodes.push_back(n);
-    graph->nodes.push_back(n1);
-    graph->nodes.push_back(nr1);
+    add_once_node(n,n1, {0,0.8,0}, graph);
+    add_once_node(n,nr1,{0,0.8,0},graph);
+    add_once_node(n1,nr1,{0,0.6,0},graph);
+    add_once_node(n,nr2,{1,0.8,0},graph);
+    add_once_node(n1,nr2,{1,0.6,0},graph);
 
 
     return graph;
@@ -150,7 +165,6 @@ void build (scene* scn, Graph* graph, int inode,frame3f pos) {
     auto s = rand();
     print("{}\n",s);
     auto ir = s % node.adj.size();
-
     for (auto edge : node.adj.at(ir) ) {
         pos.o += edge.constanValue;
         build(scn,graph, edge.indexNode,pos);
