@@ -6,28 +6,36 @@
 #include "../yocto/yocto_gl.h"
 using namespace ygl;
 
-void add_instance(scene* scn, const std::string& name, const frame3f& f,
-                  obj_shape shps,material* mat) {
-    auto sh = new shape();
-    sh->name = name;
-    sh->triangles = shps.triangles;
-    sh->texcoord = shps.texcoord;
-    sh->points = shps.points;
-    sh->pos = shps.pos;
-    sh->mat = mat;
-    scn->shapes.push_back(sh);
 
+struct node {
+    bool isTerminal = false;
+    vector<int> adj;
+    vector<shape*> shapes;
+};
+
+struct  Graph {
+    vector<node> nodes;
+    int nodeStart = 0;
+};
+
+
+void add_instance(scene* scn, const std::string& name, const frame3f& f,
+                  shape* shp) {
     auto ist = new instance();
     ist->name = name;
-    ist->shp = sh;
+    ist->shp = shp;
     ist->frame = f;
     scn->instances.push_back(ist);
 }
 
+void add_node_to_scene (scene* scn, const node* nod, const frame3f& f) {
+    for (auto shape : nod->shapes) {
+        add_instance(scn,"Instance:" + to_string(scn->instances.size()), f,shape);
+    }
+}
 
-void load_and_add_to_scene (const string& filename, scene *scene, frame3f frame,
-                            std::map<string, material*> *mapMat,
-                            std::map<string, shape*> *mapShape) {
+node loadNode(const string &filename, scene *scene,
+              std::map<string, material *> *mapMat) {
     auto object = load_obj(filename);
     for (auto mat : object->materials) {
         if ((*mapMat)[mat->name] != nullptr ) continue;
@@ -37,25 +45,38 @@ void load_and_add_to_scene (const string& filename, scene *scene, frame3f frame,
         (*mapMat)[mat->name] = mater;
         scene->materials.push_back(mater);
     }
+    auto nod = node{};
 
     for (auto obj :  object->objects) {
         for (auto mesh : get_mesh(object,*obj,false)->shapes) {
-            add_instance(scene,
-                         "Object:" + to_string(scene->instances.size()),
-                         frame,
-                         mesh,
-                         (*mapMat)[mesh.matname]);
+
+            auto sh = new shape();
+            sh->name = "Shape:" + to_string(scene->shapes.size());
+            sh->triangles = mesh.triangles;
+            sh->texcoord = mesh.texcoord;
+            sh->points = mesh.points;
+            sh->pos = mesh.pos;
+            sh->mat = (*mapMat)[mesh.matname];
+            scene->shapes.push_back(sh);
+            //Aggiungo la shape al nodo
+            nod.shapes.push_back(sh);
+
+            //add_instance(scene, sh->name, frame, sh);
         }
     }
-
+    return nod;
 }
+
+
+
+
 
 
 int main () {
     auto scen = new scene();
 
     auto mapMat = new std::map<string, material*>();
-    auto mapShape = new std::map<string, shape*>();
+    //auto mapShape = new std::map<string, shape*>();
 
     // add light
     auto lshp = new shape{"light"};
@@ -98,11 +119,15 @@ int main () {
     auto frame3 = frame3f{{}};
     auto frame4 = frame3f{{}};
 
-    load_and_add_to_scene("Models/modularBuildings_010.obj",scen, identity_frame3f , mapMat,mapShape);
-    load_and_add_to_scene("Models/modularBuildings_010.obj",scen, frame2 , mapMat,mapShape);
-    load_and_add_to_scene("Models/modularBuildings_003.obj",scen, frame1, mapMat,mapShape);
-    load_and_add_to_scene("Models/modularBuildings_004.obj",scen, identity_frame3f, mapMat,mapShape);
-    load_and_add_to_scene("Models/modularBuildings_005.obj",scen, identity_frame3f, mapMat,mapShape);
+    auto graph = Graph{};
+    graph.nodes.push_back(loadNode("Models/modularBuildings_010.obj", scen, mapMat));
+    auto nod = loadNode("Models/modularBuildings_010.obj", scen, mapMat);
+    add_node_to_scene(scen,&nod, identity_frame3f);
+    add_node_to_scene(scen, &nod, make_frame_fromz({0,0.2,0},{1,0,0}));
+    //loadNode("Models/modularBuildings_010.obj", scen, mapMat);
+    //loadNode("Models/modularBuildings_003.obj", scen, mapMat);
+    //loadNode("Models/modularBuildings_004.obj", scen, mapMat);
+    //loadNode("Models/modularBuildings_005.obj", scen, mapMat);
 
     save_scene("./file.obj",scen,save_options());
 }
