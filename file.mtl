@@ -8,18 +8,33 @@ newmtl floor
   Kd 0.2 0.2 0.2
   Ns 2e+16
 
-newmtl Wood
-  illum 2
-  Kd 0.615686 0.454902 0.282353
-  Ns 2e+16
-
 newmtl Dark_brick
   illum 2
   Kd 0.8 0.780392 0.705882
+  Ks 0.33 0.33 0.33
   Ns 2e+16
 
-newmtl Green
+newmtl Brick
   illum 2
-  Kd 0.541176 0.709804 0.286275
+  Kd 0.917647 0.898039 0.811765
+  Ks 0.33 0.33 0.33
+  Ns 2e+16
+
+newmtl Glass
+  illum 2
+  Kd 0.611765 0.831373 0.886275
+  Ks 0.33 0.33 0.33
+  Ns 2e+16
+
+newmtl Roof
+  illum 2
+  Kd 0.266667 0.266667 0.266667
+  Ks 0.33 0.33 0.33
+  Ns 2e+16
+
+newmtl FrontColor
+  illum 2
+  Kd 1 1 1
+  Ks 0.33 0.33 0.33
   Ns 2e+16
 

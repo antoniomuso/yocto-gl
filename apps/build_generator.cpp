@@ -6,10 +6,23 @@
 #include "../yocto/yocto_gl.h"
 using namespace ygl;
 
+enum Position {
+    Left,
+    Right,
+    Ahead,
+    Back,
+    Up,
+    Down
+};
+
+struct edge {
+    int indexNode;
+    vec3f constanValue;
+};
 
 struct node {
     bool isTerminal = false;
-    vector<int> adj;
+    vector<vector<edge>> adj;
     vector<shape*> shapes;
 };
 
@@ -18,7 +31,7 @@ struct  Graph {
     int nodeStart = 0;
 };
 
-
+// Add a istance on scene
 void add_instance(scene* scn, const std::string& name, const frame3f& f,
                   shape* shp) {
     auto ist = new instance();
@@ -28,12 +41,14 @@ void add_instance(scene* scn, const std::string& name, const frame3f& f,
     scn->instances.push_back(ist);
 }
 
-void add_node_to_scene (scene* scn, const node* nod, const frame3f& f) {
-    for (auto shape : nod->shapes) {
+// create istances of nodes
+void add_node_to_scene (scene* scn, const node& nod, const frame3f& f) {
+    for (auto shape : nod.shapes) {
         add_instance(scn,"Instance:" + to_string(scn->instances.size()), f,shape);
     }
 }
 
+// Create node and load it shape to scene
 node loadNode(const string &filename, scene *scene,
               std::map<string, material *> *mapMat) {
     auto object = load_obj(filename);
@@ -42,6 +57,10 @@ node loadNode(const string &filename, scene *scene,
         auto mater = new material();
         mater->name = mat->name;
         mater->kd = mat->kd;
+        mater->ks = mat->ks;
+        mater->kt = mat->kt;
+        mater->kr = mat->kr;
+        mater->ke = mat->ke;
         (*mapMat)[mat->name] = mater;
         scene->materials.push_back(mater);
     }
@@ -65,6 +84,78 @@ node loadNode(const string &filename, scene *scene,
         }
     }
     return nod;
+}
+
+Graph* build_graph_houses(scene* scen, std::map<string, material*>* mapMat) {
+    auto graph = new Graph();
+
+    auto startNode = node{};
+    startNode.adj.push_back(vector<edge>());
+    startNode.adj.push_back(vector<edge>());
+
+    startNode.adj.push_back(vector<edge>());
+    startNode.adj.push_back(vector<edge>());
+    startNode.adj.push_back(vector<edge>());
+
+
+    // load houses
+    auto n = loadNode("Models/modularBuildings_027.obj", scen, mapMat);
+    auto n1 = loadNode("Models/modularBuildings_030.obj", scen, mapMat);
+
+
+
+    // load roofs
+    auto nr1 = loadNode("Models/modularBuildings_044.obj", scen, mapMat);
+
+    auto nr2 = loadNode("Models/modularBuildings_063.obj", scen, mapMat);
+
+    startNode.adj.at(0).push_back(edge{1,{0,0,0}});
+    startNode.adj.at(1).push_back(edge{2,{0,0,0}});
+
+    /*
+    startNode.adj.at(2).push_back(edge{2,{0,0,0}});
+    startNode.adj.at(3).push_back(edge{2,{0,0,0}});
+    startNode.adj.at(4).push_back(edge{2,{0,0,0}});
+     */
+
+
+
+
+    // load to graph
+    n.adj.push_back(vector<edge>());
+    n.adj.push_back(vector<edge>());
+    n.adj.at(0).push_back(edge{3,{0,0.8,0}});
+    n.adj.at(1).push_back(edge{2,{0,0.8,0}});
+
+    // load to graph
+    n1.adj.push_back(vector<edge>());
+    n1.adj.at(0).push_back(edge{3,{0,0.6,0}});
+
+    graph->nodes.push_back(startNode);
+    graph->nodes.push_back(n);
+    graph->nodes.push_back(n1);
+    graph->nodes.push_back(nr1);
+
+
+    return graph;
+
+}
+
+void build (scene* scn, Graph* graph, int inode,frame3f pos) {
+
+    auto node = graph->nodes.at(inode);
+    if (node.shapes.size() != 0) add_node_to_scene(scn,node, pos);
+    if (node.adj.size() == 0 ) return ;
+    srand(time(NULL));
+    auto s = rand();
+    print("{}\n",s);
+    auto ir = s % node.adj.size();
+
+    for (auto edge : node.adj.at(ir) ) {
+        pos.o += edge.constanValue;
+        build(scn,graph, edge.indexNode,pos);
+    }
+
 }
 
 
@@ -114,20 +205,17 @@ int main () {
     scen->shapes.push_back(shp);
     scen->instances.push_back(new instance{"floor", identity_frame3f, shp});
 
-    auto frame1 = frame3f{{1,0,0}, {0,1,0}, {0,0,1},{0,0.2,0}};
-    auto frame2 = frame3f{{1,0,0},{0,1,0},{0,0,1},{0,0.4,0}};
-    auto frame3 = frame3f{{}};
-    auto frame4 = frame3f{{}};
 
-    auto graph = Graph{};
+    auto graph = build_graph_houses(scen,mapMat);
+    build(scen,graph,0,identity_frame3f);
+    /*
     graph.nodes.push_back(loadNode("Models/modularBuildings_010.obj", scen, mapMat));
-    auto nod = loadNode("Models/modularBuildings_010.obj", scen, mapMat);
-    add_node_to_scene(scen,&nod, identity_frame3f);
-    add_node_to_scene(scen, &nod, make_frame_fromz({0,0.2,0},{1,0,0}));
-    //loadNode("Models/modularBuildings_010.obj", scen, mapMat);
-    //loadNode("Models/modularBuildings_003.obj", scen, mapMat);
-    //loadNode("Models/modularBuildings_004.obj", scen, mapMat);
-    //loadNode("Models/modularBuildings_005.obj", scen, mapMat);
+    auto nod = loadNode("Models/modularBuildings_059.obj", scen, mapMat);
+    auto nod1 = loadNode("Models/modularBuildings_060.obj", scen, mapMat);
+    auto nod2 = loadNode("Models/modularBuildings_061.obj", scen, mapMat);
+    add_node_to_scene(scen, &nod2, make_frame3_fromzx({0,0.6,0},{0,0,1},{1,0,0}));
+     */
+
 
     save_scene("./file.obj",scen,save_options());
 }
