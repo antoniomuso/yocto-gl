@@ -117,38 +117,30 @@ void add_once_node (node& nod, node& nod1, vec3f constValue ,Graph* graph ) {
 
 Graph* build_graph_houses(scene* scen, std::map<string, material*>* mapMat) {
     auto graph = new Graph();
-
     auto startNode = node{};
-
-
 
     // load houses
     auto n = loadNode("Models/modularBuildings_027.obj", scen, mapMat);
     auto n1 = loadNode("Models/modularBuildings_030.obj", scen, mapMat);
-
-
+    auto n2 = loadNode("Models/modularBuildings_054.obj", scen, mapMat);
 
     // load roofs
     auto nr1 = loadNode("Models/modularBuildings_044.obj", scen, mapMat);
-
     auto nr2 = loadNode("Models/modularBuildings_063.obj", scen, mapMat);
 
-    /*
-    startNode.adj.at(0).push_back(edge{1,{0,0,0}});
-    startNode.adj.at(1).push_back(edge{2,{0,0,0}});
-     *(
-    /*
-    startNode.adj.at(2).push_back(edge{2,{0,0,0}});
-    startNode.adj.at(3).push_back(edge{2,{0,0,0}});
-    startNode.adj.at(4).push_back(edge{2,{0,0,0}});
-     */
+
     add_once_node(startNode,n,{0,0,0},graph);
     add_once_node(startNode,n1,{0,0,0},graph);
+    add_once_node(startNode,n2,{0,0,0},graph);
 
     add_once_node(n,n1, {0,0.8,0}, graph);
     add_once_node(n,nr1,{0,0.8,0},graph);
-    add_once_node(n1,nr1,{0,0.6,0},graph);
     add_once_node(n,nr2,{1,0.8,0},graph);
+    add_once_node(n2,n1,{0,0.8,0},graph);
+    add_once_node(n2,nr1,{0,0.8,0},graph);
+    add_once_node(n2,nr2,{0,0.8,0},graph);
+    add_once_node(n1,nr1,{0,0.6,0},graph);
+
     add_once_node(n1,nr2,{1,0.6,0},graph);
 
 
