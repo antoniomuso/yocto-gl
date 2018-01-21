@@ -9,8 +9,8 @@
       <config projectName="yocto-gl" targetName="yview" />
       <config projectName="yocto-gl" targetName="ytrace" />
       <config projectName="yocto-gl" targetName="yitrace" />
-      <config projectName="yocto-gl" targetName="yocto_gl" />
       <config projectName="yocto-gl" targetName="yimproc" />
+      <config projectName="yocto-gl" targetName="yocto_gl" />
       <config projectName="yocto-gl" targetName="yscnproc" />
     </generated>
   </component>
@@ -35,8 +35,8 @@
       <file leaf-file-name="build_generator.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/apps/build_generator.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1327">
-              <caret line="201" column="44" lean-forward="false" selection-start-line="201" selection-start-column="44" selection-end-line="201" selection-end-column="44" />
+            <state relative-caret-position="1416">
+              <caret line="186" column="18" lean-forward="false" selection-start-line="186" selection-start-column="13" selection-end-line="186" selection-end-column="18" />
               <folding>
                 <element signature="e#383#643#0" expanded="false" />
                 <element signature="e#645#872#0" expanded="false" />
@@ -631,8 +631,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/build_generator.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1327">
-          <caret line="201" column="44" lean-forward="false" selection-start-line="201" selection-start-column="44" selection-end-line="201" selection-end-column="44" />
+        <state relative-caret-position="1416">
+          <caret line="186" column="18" lean-forward="false" selection-start-line="186" selection-start-column="13" selection-end-line="186" selection-end-column="18" />
           <folding>
             <element signature="e#383#643#0" expanded="false" />
             <element signature="e#645#872#0" expanded="false" />

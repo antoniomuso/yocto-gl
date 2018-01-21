@@ -153,72 +153,62 @@ Graph* build_graph_houses(scene* scen, std::map<string, material*>* mapMat) {
 
 
 
+    // Variabili Contenitore
+    auto basi = node{};
+    auto tetti = node{};
+    auto piani = node{};
 
-    //add_multi_nodes(n, graph, { {{0,0,0},nr1},{{0,0,0},nr2} } );
-
-    add_multi_nodes_or(startNode, graph, {
+    add_multi_nodes_or(basi,graph, {
             {BaseConScalinata,  {0, 0, 0}},
             {baseConFinestreEPortone, {0, 0, 0}},
     });
 
+    add_multi_nodes_or(tetti, graph, {
+            {tetto, {0, 0, 0}},
+            {tettoConFinestra, {1, 0, 0}},
+    });
+    add_multi_nodes_or(piani, graph, {
+            {pianoFinestre,  {0, 0, 0}},
+            {pianoFinestroneBalcone, {0, 0, 0}}
+    });
+
+    //Metto che la variabile di start parte con una base
+    add_multi_nodes_or(startNode, graph, {
+            {basi,{0,0,0}}
+    });
+
+
+    //add_multi_nodes(n, graph, { {{0,0,0},nr1},{{0,0,0},nr2} } );
+
+
+    //Varaibile BaseConScalinata
     add_multi_nodes_or(BaseConScalinata, graph, {
-            {pianoFinestre,  {0, 0.8, 0}},
-            {tetto, {0, 0.8, 0}},
-            {tettoConFinestra, {1, 0.8, 0}},
-            {pianoFinestroneBalcone, {0, 0.8, 0}}
+            {piani,  {0, 0.8, 0}},
+            {tetti, {0, 0.8, 0}}
     });
 
     add_multi_nodes_and(BaseConScalinata, graph, {
-            {BaseConScalinata, {0,0,1}},
-            {tetto, {0, 0.8, 0}},
+            {basi, {0,0,1}},
+            {tetti, {0, 0.8, 0}},
     });
     add_multi_nodes_and(BaseConScalinata, graph, {
-            {BaseConScalinata, {0,0,1}},
-            {pianoFinestre,  {0, 0.8, 0}},
-    });
-    add_multi_nodes_and(BaseConScalinata, graph, {
-            {BaseConScalinata, {0,0,1}},
-            {tettoConFinestra, {1, 0.8, 0}},
-    });
-    add_multi_nodes_and(BaseConScalinata, graph, {
-            {BaseConScalinata, {0,0,1}},
-            {pianoFinestroneBalcone, {0, 0.8, 0}}
-    });
-
-
-    add_multi_nodes_and(BaseConScalinata, graph, {
-            {baseConFinestreEPortone, {0,0,1}},
-            {tetto, {0, 0.8, 0}},
-    });
-    add_multi_nodes_and(BaseConScalinata, graph, {
-            {baseConFinestreEPortone, {0,0,1}},
-            {pianoFinestre,  {0, 0.8, 0}},
-    });
-    add_multi_nodes_and(BaseConScalinata, graph, {
-            {baseConFinestreEPortone, {0,0,1}},
-            {tettoConFinestra, {1, 0.8, 0}},
-    });
-    add_multi_nodes_and(BaseConScalinata, graph, {
-            {baseConFinestreEPortone, {0,0,1}},
-            {pianoFinestroneBalcone, {0, 0.8, 0}}
+            {basi, {0,0,1}},
+            {piani,  {0, 0.8, 0}},
     });
 
 
 
 
 
-
+    //Variabili piani
     add_multi_nodes_or(pianoFinestre, graph, {
-            {tetto, {0, 0.6, 0}},
-            {tettoConFinestra, {1, 0.6, 0}},
-            {pianoFinestre,  {0, 0.6, 0}},
-            {pianoFinestroneBalcone, {0, 0.6, 0}}
+            {tetti, {0, 0.6, 0}},
+            {piani,  {0, 0.6, 0}}
     });
 
     add_multi_nodes_or(pianoFinestroneBalcone, graph, {
-            {tetto, {0, 0.6, 0}},
-            {tettoConFinestra, {1, 0.6, 0}},
-            {pianoFinestre,  {0, 0.6, 0}}
+            {tetti, {0, 0.6, 0}},
+            {piani,  {0, 0.6, 0}}
     });
 
     /*
@@ -240,32 +230,21 @@ Graph* build_graph_houses(scene* scen, std::map<string, material*>* mapMat) {
      */
 
 
+    // Variabile Base con finestre
     add_multi_nodes_or(baseConFinestreEPortone, graph, {
-            {pianoFinestre,  {0, 0.6, 0}},
-            {tetto, {0, 0.6, 0}},
-            {tettoConFinestra, {1, 0.6, 0}},
-            {pianoFinestroneBalcone, {0, 0.6, 0}}
-    });
-    // {baseConFinestreEPortone, {0,0,1}}
-    add_multi_nodes_and(baseConFinestreEPortone, graph, {
-            {baseConFinestreEPortone, {0,0,1}},
-            {tetto, {0, 0.6, 0}},
+            {tetti, {0, 0.6, 0}},
+            {piani, {0, 0.6, 0}}
     });
     add_multi_nodes_and(baseConFinestreEPortone, graph, {
-            {baseConFinestreEPortone, {0,0,1}},
-            {pianoFinestre,  {0, 0.6, 0}},
+            {basi, {0,0,1}},
+            {tetti, {0, 0.6, 0}},
     });
     add_multi_nodes_and(baseConFinestreEPortone, graph, {
-            {baseConFinestreEPortone, {0,0,1}},
-            {tettoConFinestra, {1, 0.6, 0}},
-    });
-    add_multi_nodes_and(baseConFinestreEPortone, graph, {
-            {baseConFinestreEPortone, {0,0,1}},
-            {pianoFinestroneBalcone, {0, 0.6, 0}}
+            {basi, {0,0,1}},
+            {piani,  {0, 0.6, 0}},
     });
 
-
-
+    //Inserisco la variabile startNode come nodo di partenza
     graph->nodeStart = startNode.graphPos;
     return graph;
 
