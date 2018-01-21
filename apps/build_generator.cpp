@@ -138,14 +138,19 @@ Graph* build_graph_houses(scene* scen, std::map<string, material*>* mapMat) {
     auto startNode = node{};
 
     // load houses
-    auto BaseConScalinata = loadNode("Models/modularBuildings_027.obj", scen, mapMat);
-    auto pianoFinestre = loadNode("Models/modularBuildings_030.obj", scen, mapMat); // Piano con due finestre
-    auto baseConFinestreEPortone = loadNode("Models/modularBuildings_054.obj", scen, mapMat); //
-    auto pianoFinestroneBalcone = loadNode("Models/modularBuildings_041.obj", scen, mapMat); // piano con finestrona grossa e balconcino
+    auto BaseConScalinata = loadNode("myModel/modularBuildings_027.obj", scen, mapMat);
+    auto baseConFinestreEPortone = loadNode("myModel/modularBuildings_054.obj", scen, mapMat); //
 
+    // piani
+    auto pianoFinestre = loadNode("myModel/modularBuildings_030.obj", scen, mapMat); // Piano con due finestre
+    auto pianoFinestrone = loadNode("myModel/modularBuildings_041.obj", scen, mapMat); // piano con finestrona grossa e balconcino
+    auto pianoFinestreQuadrate = loadNode("myModel/modularBuildings_034.obj", scen, mapMat);
+    auto pianoConBalcone = loadNode("Models/modularBuildings_042.obj", scen, mapMat);
+    auto pianoConFinestreCoperte = loadNode("Models/modularBuildings_033.obj", scen, mapMat);
     // load roofs
     auto tetto = loadNode("Models/modularBuildings_044.obj", scen, mapMat);
     auto tettoConFinestra = loadNode("Models/modularBuildings_063.obj", scen, mapMat);
+    auto tettoTriangolo = loadNode("Models/modularBuildings_065.obj", scen, mapMat);
 
 
     //finestre
@@ -166,10 +171,13 @@ Graph* build_graph_houses(scene* scen, std::map<string, material*>* mapMat) {
     add_multi_nodes_or(tetti, graph, {
             {tetto, {0, 0, 0}},
             {tettoConFinestra, {1, 0, 0}},
+            {tettoTriangolo, {0, 0, 0}}
     });
     add_multi_nodes_or(piani, graph, {
             {pianoFinestre,  {0, 0, 0}},
-            {pianoFinestroneBalcone, {0, 0, 0}}
+            {pianoFinestrone, {0, 0, 0}},
+            {pianoFinestreQuadrate, {0, 0, 0}},
+            {pianoConBalcone,{0,0,0}}
     });
 
     //Metto che la variabile di start parte con una base
@@ -197,38 +205,26 @@ Graph* build_graph_houses(scene* scen, std::map<string, material*>* mapMat) {
     });
 
 
-
-
-
     //Variabili piani
     add_multi_nodes_or(pianoFinestre, graph, {
             {tetti, {0, 0.6, 0}},
             {piani,  {0, 0.6, 0}}
     });
 
-    add_multi_nodes_or(pianoFinestroneBalcone, graph, {
+    add_multi_nodes_or(pianoFinestrone, graph, {
             {tetti, {0, 0.6, 0}},
             {piani,  {0, 0.6, 0}}
     });
 
-    /*
-    add_multi_nodes_and(pianoFinestre, graph, {
-            {tetto, {0, 0.6, 0}},
-            {portaAdArco,  {0, 0, 0}},
-            {portaAdArco,  {0, 0, 0}}
+    add_multi_nodes_or(pianoFinestreQuadrate, graph, {
+            {tetti, {0, 0.6, 0}},
+            {piani,  {0, 0.6, 0}}
     });
-    add_multi_nodes_and(pianoFinestre, graph, {
-            {tettoConFinestra, {1, 0.6, 0}},
-            {portaAdArco,  {0, 0, 0}},
-            {portaAdArco,  {0, 0, 0}}
-    });
-    add_multi_nodes_and(pianoFinestre, graph, {
-            {pianoFinestre,  {0, 0.6, 0}},
-            {portaAdArco,  {0, 0, 0}},
-            {portaAdArco,  {0, 0, 0}}
-    });
-     */
 
+    add_multi_nodes_or(pianoConBalcone, graph, {
+            {tetti, {0, 0.6, 0}},
+            {piani,  {0, 0.6, 0}}
+    });
 
     // Variabile Base con finestre
     add_multi_nodes_or(baseConFinestreEPortone, graph, {
