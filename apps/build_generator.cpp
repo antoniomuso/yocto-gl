@@ -18,7 +18,7 @@ enum Position {
 };
 
 struct edge {
-    int indexNode;
+    long indexNode;
     vec3f constanValue;
 };
 
@@ -31,7 +31,7 @@ struct node {
 
 struct  Graph {
     vector<node> nodes;
-    int nodeStart = 0;
+    long nodeStart = -1;
 };
 
 // Add a istance on scene
@@ -136,30 +136,27 @@ Graph* build_graph_houses(scene* scen, std::map<string, material*>* mapMat) {
     add_once_node(n,n1, {0,0.8,0}, graph);
     add_once_node(n,nr1,{0,0.8,0},graph);
     add_once_node(n,nr2,{1,0.8,0},graph);
-    add_once_node(n2,n1,{0,0.8,0},graph);
-    add_once_node(n2,nr1,{0,0.8,0},graph);
-    add_once_node(n2,nr2,{0,0.8,0},graph);
+    add_once_node(n2,n1,{0,0.6,0},graph);
+    add_once_node(n2,nr1,{0,0.6,0},graph);
+    add_once_node(n2,nr2,{1,0.6,0},graph);
     add_once_node(n1,nr1,{0,0.6,0},graph);
 
     add_once_node(n1,nr2,{1,0.6,0},graph);
-
-
+    graph->nodeStart = startNode.graphPos;
     return graph;
 
 }
 
-void build (scene* scn, Graph* graph, int inode,frame3f pos) {
+void build (scene* scn, Graph* graph, long inode,frame3f pos,rng_pcg32& rng) {
 
     auto node = graph->nodes.at(inode);
     if (node.shapes.size() != 0) add_node_to_scene(scn,node, pos);
     if (node.adj.size() == 0 ) return ;
-    srand(time(NULL));
-    auto s = rand();
-    print("{}\n",s);
-    auto ir = s % node.adj.size();
+    auto ir = next_rand1i(rng,node.adj.size());
+    print("value gen: {} values: {} \n",ir, node.adj.size()-1);
     for (auto edge : node.adj.at(ir) ) {
         pos.o += edge.constanValue;
-        build(scn,graph, edge.indexNode,pos);
+        build(scn,graph, edge.indexNode,pos,rng);
     }
 
 }
@@ -213,7 +210,10 @@ int main () {
 
 
     auto graph = build_graph_houses(scen,mapMat);
-    build(scen,graph,0,identity_frame3f);
+
+    auto rng =  init_rng(0, static_cast<uint64_t>(time(NULL)));
+
+    build(scen,graph,graph->nodeStart,identity_frame3f,rng);
     /*
     graph.nodes.push_back(loadNode("Models/modularBuildings_010.obj", scen, mapMat));
     auto nod = loadNode("Models/modularBuildings_059.obj", scen, mapMat);

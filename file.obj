@@ -2,28 +2,23 @@ mtllib file.mtl
 c cam 0 0.261799 1.77778 0 10.4403 1 0 0 0 0.957826 -0.287348 0 0.287348 0.957826 0 4 10
 i light light 1 0 0 0 1 0 0 0 1 0 0 0
 i floor floor 1 0 0 0 1 0 0 0 1 0 0 0
-i Instance:2 Shape:2 1 0 0 0 1 0 0 0 1 0 0 0
-i Instance:3 Shape:3 1 0 0 0 1 0 0 0 1 0 0 0
-i Instance:4 Shape:4 1 0 0 0 1 0 0 0 1 0 0 0
-i Instance:5 Shape:5 1 0 0 0 1 0 0 0 1 0 0 0
-i Instance:6 Shape:6 1 0 0 0 1 0 0 0 1 0 0 0
-i Instance:7 Shape:7 1 0 0 0 1 0 0 0 1 0 0.8 0
-i Instance:8 Shape:8 1 0 0 0 1 0 0 0 1 0 0.8 0
-i Instance:9 Shape:9 1 0 0 0 1 0 0 0 1 0 0.8 0
-i Instance:10 Shape:10 1 0 0 0 1 0 0 0 1 0 0.8 0
-i Instance:11 Shape:11 1 0 0 0 1 0 0 0 1 0 0.8 0
-i Instance:12 Shape:24 1 0 0 0 1 0 0 0 1 1 1.4 0
-i Instance:13 Shape:25 1 0 0 0 1 0 0 0 1 1 1.4 0
-i Instance:14 Shape:26 1 0 0 0 1 0 0 0 1 1 1.4 0
-i Instance:15 Shape:27 1 0 0 0 1 0 0 0 1 1 1.4 0
-i Instance:16 Shape:28 1 0 0 0 1 0 0 0 1 1 1.4 0
-i Instance:17 Shape:29 1 0 0 0 1 0 0 0 1 1 1.4 0
-i Instance:18 Shape:30 1 0 0 0 1 0 0 0 1 1 1.4 0
-i Instance:19 Shape:31 1 0 0 0 1 0 0 0 1 1 1.4 0
-i Instance:20 Shape:32 1 0 0 0 1 0 0 0 1 1 1.4 0
-i Instance:21 Shape:33 1 0 0 0 1 0 0 0 1 1 1.4 0
-i Instance:22 Shape:34 1 0 0 0 1 0 0 0 1 1 1.4 0
-i Instance:23 Shape:35 1 0 0 0 1 0 0 0 1 1 1.4 0
+i Instance:2 Shape:7 1 0 0 0 1 0 0 0 1 0 0 0
+i Instance:3 Shape:8 1 0 0 0 1 0 0 0 1 0 0 0
+i Instance:4 Shape:9 1 0 0 0 1 0 0 0 1 0 0 0
+i Instance:5 Shape:10 1 0 0 0 1 0 0 0 1 0 0 0
+i Instance:6 Shape:11 1 0 0 0 1 0 0 0 1 0 0 0
+i Instance:7 Shape:24 1 0 0 0 1 0 0 0 1 1 0.6 0
+i Instance:8 Shape:25 1 0 0 0 1 0 0 0 1 1 0.6 0
+i Instance:9 Shape:26 1 0 0 0 1 0 0 0 1 1 0.6 0
+i Instance:10 Shape:27 1 0 0 0 1 0 0 0 1 1 0.6 0
+i Instance:11 Shape:28 1 0 0 0 1 0 0 0 1 1 0.6 0
+i Instance:12 Shape:29 1 0 0 0 1 0 0 0 1 1 0.6 0
+i Instance:13 Shape:30 1 0 0 0 1 0 0 0 1 1 0.6 0
+i Instance:14 Shape:31 1 0 0 0 1 0 0 0 1 1 0.6 0
+i Instance:15 Shape:32 1 0 0 0 1 0 0 0 1 1 0.6 0
+i Instance:16 Shape:33 1 0 0 0 1 0 0 0 1 1 0.6 0
+i Instance:17 Shape:34 1 0 0 0 1 0 0 0 1 1 0.6 0
+i Instance:18 Shape:35 1 0 0 0 1 0 0 0 1 1 0.6 0
 v 1.4 8 6
 v -1.4 8 6
 v -20 0 -20
