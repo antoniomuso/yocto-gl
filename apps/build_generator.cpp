@@ -147,6 +147,7 @@ Graph* build_graph_houses(scene* scen, std::map<string, material*>* mapMat) {
     auto pianoFinestreQuadrate = loadNode("myModel/modularBuildings_034.obj", scen, mapMat);
     auto pianoConBalcone = loadNode("Models/modularBuildings_042.obj", scen, mapMat);
     auto pianoConFinestreCoperte = loadNode("Models/modularBuildings_033.obj", scen, mapMat);
+
     // load roofs
     auto tetto = loadNode("Models/modularBuildings_044.obj", scen, mapMat);
     auto tettoConFinestra = loadNode("Models/modularBuildings_063.obj", scen, mapMat);
