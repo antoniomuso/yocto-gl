@@ -90,7 +90,7 @@ node loadNode(const string &filename, scene *scene,
     return nod;
 }
 
-void add_once_node (node& nod, node& nod1, vec3f constValue ,Graph* graph ) {
+void add_once_node_or(node &nod, node &nod1, vec3f constValue, Graph *graph) {
     if (nod1.graphPos == -1) {
         nod1.graphPos = graph->nodes.size();
         graph->nodes.push_back(nod1);
@@ -110,8 +110,37 @@ void add_once_node (node& nod, node& nod1, vec3f constValue ,Graph* graph ) {
 
     // Mi assicuro che il nodo venga salvato
     graph->nodes.at(node.graphPos) = node;
-    nod.graphPos = node.graphPos;
-    nod1.graphPos = node1.graphPos;
+    //nod.graphPos = node.graphPos;
+    //nod1.graphPos = node1.graphPos;
+}
+
+
+void add_multi_nodes_or(node &nod, Graph *graph, vector<pair<node &, vec3f>> vect){
+    for (auto tup : vect) {
+        add_once_node_or(nod, tup.first, tup.second, graph);
+    }
+}
+
+void add_multi_nodes_and(node &nod, Graph *graph, vector<pair<node &, vec3f>> vect) {
+    if (nod.graphPos == -1) {
+        nod.graphPos = graph->nodes.size();
+        graph->nodes.push_back(nod);
+    }
+    auto node = graph->nodes.at(nod.graphPos);
+    auto vectEdge = vector<edge>();
+    for (auto pair : vect) {
+        if (pair.first.graphPos == -1) {
+            pair.first.graphPos = graph->nodes.size();
+            graph->nodes.push_back(pair.first);
+        }
+
+        auto node1 = graph->nodes.at(pair.first.graphPos);
+        vectEdge.push_back(edge{node1.graphPos,pair.second});
+    }
+
+    node.adj.push_back(vectEdge);
+    graph->nodes.at(node.graphPos) = node;
+
 }
 
 
@@ -120,28 +149,77 @@ Graph* build_graph_houses(scene* scen, std::map<string, material*>* mapMat) {
     auto startNode = node{};
 
     // load houses
-    auto n = loadNode("Models/modularBuildings_027.obj", scen, mapMat);
-    auto n1 = loadNode("Models/modularBuildings_030.obj", scen, mapMat);
-    auto n2 = loadNode("Models/modularBuildings_054.obj", scen, mapMat);
+    auto BaseConScalinata = loadNode("Models/modularBuildings_027.obj", scen, mapMat);
+    auto pianoFinestre = loadNode("Models/modularBuildings_030.obj", scen, mapMat); // Piano con due finestre
+    auto baseConFinestreEPortone = loadNode("Models/modularBuildings_054.obj", scen, mapMat); //
+    auto pianoFinestroneBalcone = loadNode("Models/modularBuildings_041.obj", scen, mapMat); // piano con finestrona grossa e balconcino
 
     // load roofs
-    auto nr1 = loadNode("Models/modularBuildings_044.obj", scen, mapMat);
-    auto nr2 = loadNode("Models/modularBuildings_063.obj", scen, mapMat);
+    auto tetto = loadNode("Models/modularBuildings_044.obj", scen, mapMat);
+    auto tettoConFinestra = loadNode("Models/modularBuildings_063.obj", scen, mapMat);
 
 
-    add_once_node(startNode,n,{0,0,0},graph);
-    add_once_node(startNode,n1,{0,0,0},graph);
-    add_once_node(startNode,n2,{0,0,0},graph);
+    //finestre
+    auto portaAdArco = loadNode("Models/modularBuildings_099.obj", scen, mapMat);
 
-    add_once_node(n,n1, {0,0.8,0}, graph);
-    add_once_node(n,nr1,{0,0.8,0},graph);
-    add_once_node(n,nr2,{1,0.8,0},graph);
-    add_once_node(n2,n1,{0,0.6,0},graph);
-    add_once_node(n2,nr1,{0,0.6,0},graph);
-    add_once_node(n2,nr2,{1,0.6,0},graph);
-    add_once_node(n1,nr1,{0,0.6,0},graph);
 
-    add_once_node(n1,nr2,{1,0.6,0},graph);
+
+
+    //add_multi_nodes(n, graph, { {{0,0,0},nr1},{{0,0,0},nr2} } );
+
+    add_multi_nodes_or(startNode, graph, {
+            {BaseConScalinata,  {0, 0, 0}},
+            {baseConFinestreEPortone, {0, 0, 0}},
+    });
+
+    add_multi_nodes_or(BaseConScalinata, graph, {
+            {pianoFinestre,  {0, 0.8, 0}},
+            {tetto, {0, 0.8, 0}},
+            {tettoConFinestra, {1, 0.8, 0}},
+            {pianoFinestroneBalcone, {0, 0.8, 0}}
+    });
+
+
+    add_multi_nodes_or(pianoFinestre, graph, {
+            {tetto, {0, 0.6, 0}},
+            {tettoConFinestra, {1, 0.6, 0}},
+            {pianoFinestre,  {0, 0.6, 0}},
+            {pianoFinestroneBalcone, {0, 0.6, 0}}
+    });
+
+    add_multi_nodes_or(pianoFinestroneBalcone, graph, {
+            {tetto, {0, 0.6, 0}},
+            {tettoConFinestra, {1, 0.6, 0}},
+            {pianoFinestre,  {0, 0.6, 0}}
+    });
+
+    /*
+    add_multi_nodes_and(pianoFinestre, graph, {
+            {tetto, {0, 0.6, 0}},
+            {portaAdArco,  {0, 0, 0}},
+            {portaAdArco,  {0, 0, 0}}
+    });
+    add_multi_nodes_and(pianoFinestre, graph, {
+            {tettoConFinestra, {1, 0.6, 0}},
+            {portaAdArco,  {0, 0, 0}},
+            {portaAdArco,  {0, 0, 0}}
+    });
+    add_multi_nodes_and(pianoFinestre, graph, {
+            {pianoFinestre,  {0, 0.6, 0}},
+            {portaAdArco,  {0, 0, 0}},
+            {portaAdArco,  {0, 0, 0}}
+    });
+     */
+
+
+    add_multi_nodes_or(baseConFinestreEPortone, graph, {
+            {pianoFinestre,  {0, 0.6, 0}},
+            {tetto, {0, 0.6, 0}},
+            {tettoConFinestra, {1, 0.6, 0}},
+            {pianoFinestroneBalcone, {0, 0.6, 0}}
+    });
+
+
     graph->nodeStart = startNode.graphPos;
     return graph;
 

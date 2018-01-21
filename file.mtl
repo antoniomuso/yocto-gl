@@ -38,3 +38,9 @@ newmtl FrontColor
   Ks 0.33 0.33 0.33
   Ns 2e+16
 
+newmtl Metal
+  illum 2
+  Kd 0.882353 0.886275 0.901961
+  Ks 0.33 0.33 0.33
+  Ns 2e+16
+
