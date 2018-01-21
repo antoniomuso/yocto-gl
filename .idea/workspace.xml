@@ -9,8 +9,8 @@
       <config projectName="yocto-gl" targetName="yview" />
       <config projectName="yocto-gl" targetName="ytrace" />
       <config projectName="yocto-gl" targetName="yitrace" />
-      <config projectName="yocto-gl" targetName="yimproc" />
       <config projectName="yocto-gl" targetName="yocto_gl" />
+      <config projectName="yocto-gl" targetName="yimproc" />
       <config projectName="yocto-gl" targetName="yscnproc" />
     </generated>
   </component>
@@ -35,15 +35,15 @@
       <file leaf-file-name="build_generator.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/apps/build_generator.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3003">
-              <caret line="92" column="18" lean-forward="false" selection-start-line="92" selection-start-column="18" selection-end-line="92" selection-end-column="18" />
+            <state relative-caret-position="1327">
+              <caret line="201" column="44" lean-forward="false" selection-start-line="201" selection-start-column="44" selection-end-line="201" selection-end-column="44" />
               <folding>
-                <element signature="e#464#724#0" expanded="false" />
-                <element signature="e#726#953#0" expanded="false" />
-                <element signature="e#956#2184#0" expanded="false" />
-                <element signature="e#2186#3036#0" expanded="false" />
-                <element signature="e#3039#3219#0" expanded="false" />
-                <element signature="e#3221#3898#0" expanded="false" />
+                <element signature="e#383#643#0" expanded="false" />
+                <element signature="e#645#872#0" expanded="false" />
+                <element signature="e#875#2103#0" expanded="false" />
+                <element signature="e#2105#2955#0" expanded="false" />
+                <element signature="e#2958#3138#0" expanded="false" />
+                <element signature="e#3140#3817#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -52,11 +52,12 @@
       <file leaf-file-name="yocto_gl.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/yocto/yocto_gl.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="209">
-              <caret line="10288" column="21" lean-forward="false" selection-start-line="10288" selection-start-column="18" selection-end-line="10288" selection-end-column="21" />
+            <state relative-caret-position="58630">
+              <caret line="2255" column="7" lean-forward="false" selection-start-line="2255" selection-start-column="7" selection-end-line="2255" selection-end-column="7" />
               <folding>
                 <element signature="e#335047#335079#0" expanded="true" />
                 <element signature="e#335530#335548#0" expanded="true" />
+                <element signature="e#352179#352197#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -265,12 +266,12 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#464#724#0" expanded="false" />
-            <element signature="e#726#953#0" expanded="false" />
-            <element signature="e#956#2184#0" expanded="false" />
-            <element signature="e#2186#3036#0" expanded="false" />
-            <element signature="e#3039#3219#0" expanded="false" />
-            <element signature="e#3221#3898#0" expanded="false" />
+            <element signature="e#383#643#0" expanded="false" />
+            <element signature="e#645#872#0" expanded="false" />
+            <element signature="e#875#2103#0" expanded="false" />
+            <element signature="e#2105#2955#0" expanded="false" />
+            <element signature="e#2958#3138#0" expanded="false" />
+            <element signature="e#3140#3817#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -294,12 +295,12 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#464#724#0" expanded="false" />
-            <element signature="e#726#953#0" expanded="false" />
-            <element signature="e#956#2184#0" expanded="false" />
-            <element signature="e#2186#3036#0" expanded="false" />
-            <element signature="e#3039#3219#0" expanded="false" />
-            <element signature="e#3221#3898#0" expanded="false" />
+            <element signature="e#383#643#0" expanded="false" />
+            <element signature="e#645#872#0" expanded="false" />
+            <element signature="e#875#2103#0" expanded="false" />
+            <element signature="e#2105#2955#0" expanded="false" />
+            <element signature="e#2958#3138#0" expanded="false" />
+            <element signature="e#3140#3817#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -358,12 +359,12 @@
         <state relative-caret-position="260">
           <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
           <folding>
-            <element signature="e#464#724#0" expanded="false" />
-            <element signature="e#726#953#0" expanded="false" />
-            <element signature="e#956#2184#0" expanded="false" />
-            <element signature="e#2186#3036#0" expanded="false" />
-            <element signature="e#3039#3219#0" expanded="false" />
-            <element signature="e#3221#3898#0" expanded="false" />
+            <element signature="e#383#643#0" expanded="false" />
+            <element signature="e#645#872#0" expanded="false" />
+            <element signature="e#875#2103#0" expanded="false" />
+            <element signature="e#2105#2955#0" expanded="false" />
+            <element signature="e#2958#3138#0" expanded="false" />
+            <element signature="e#3140#3817#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -403,6 +404,7 @@
           <folding>
             <element signature="e#335047#335079#0" expanded="true" />
             <element signature="e#335530#335548#0" expanded="true" />
+            <element signature="e#352179#352197#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -421,6 +423,7 @@
           <folding>
             <element signature="e#335047#335079#0" expanded="true" />
             <element signature="e#335530#335548#0" expanded="true" />
+            <element signature="e#352179#352197#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -576,7 +579,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="216">
           <caret line="147" column="25" lean-forward="false" selection-start-line="147" selection-start-column="25" selection-end-line="147" selection-end-column="25" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -584,7 +586,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="156">
           <caret line="6" column="11" lean-forward="false" selection-start-line="6" selection-start-column="11" selection-end-line="6" selection-end-column="11" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -592,7 +593,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="216">
           <caret line="74" column="11" lean-forward="false" selection-start-line="74" selection-start-column="11" selection-end-line="74" selection-end-column="11" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -600,7 +600,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="222">
           <caret line="824" column="0" lean-forward="false" selection-start-line="824" selection-start-column="0" selection-end-line="824" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -608,7 +607,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="676">
           <caret line="26" column="19" lean-forward="false" selection-start-line="26" selection-start-column="19" selection-end-line="26" selection-end-column="19" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -616,32 +614,32 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
           <caret line="6712" column="18" lean-forward="false" selection-start-line="6712" selection-start-column="18" selection-end-line="6712" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/yocto/yocto_gl.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="10288" column="21" lean-forward="false" selection-start-line="10288" selection-start-column="18" selection-end-line="10288" selection-end-column="21" />
+        <state relative-caret-position="58630">
+          <caret line="2255" column="7" lean-forward="false" selection-start-line="2255" selection-start-column="7" selection-end-line="2255" selection-end-column="7" />
           <folding>
             <element signature="e#335047#335079#0" expanded="true" />
             <element signature="e#335530#335548#0" expanded="true" />
+            <element signature="e#352179#352197#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/build_generator.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3003">
-          <caret line="92" column="18" lean-forward="false" selection-start-line="92" selection-start-column="18" selection-end-line="92" selection-end-column="18" />
+        <state relative-caret-position="1327">
+          <caret line="201" column="44" lean-forward="false" selection-start-line="201" selection-start-column="44" selection-end-line="201" selection-end-column="44" />
           <folding>
-            <element signature="e#464#724#0" expanded="false" />
-            <element signature="e#726#953#0" expanded="false" />
-            <element signature="e#956#2184#0" expanded="false" />
-            <element signature="e#2186#3036#0" expanded="false" />
-            <element signature="e#3039#3219#0" expanded="false" />
-            <element signature="e#3221#3898#0" expanded="false" />
+            <element signature="e#383#643#0" expanded="false" />
+            <element signature="e#645#872#0" expanded="false" />
+            <element signature="e#875#2103#0" expanded="false" />
+            <element signature="e#2105#2955#0" expanded="false" />
+            <element signature="e#2958#3138#0" expanded="false" />
+            <element signature="e#3140#3817#0" expanded="false" />
           </folding>
         </state>
       </provider>

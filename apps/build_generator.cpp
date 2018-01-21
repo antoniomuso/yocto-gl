@@ -6,17 +6,6 @@
 #include "../yocto/yocto_gl.h"
 using namespace ygl;
 
-
-
-enum Position {
-    Left,
-    Right,
-    Ahead,
-    Back,
-    Up,
-    Down
-};
-
 struct edge {
     long indexNode;
     vec3f constanValue;
@@ -179,6 +168,45 @@ Graph* build_graph_houses(scene* scen, std::map<string, material*>* mapMat) {
             {pianoFinestroneBalcone, {0, 0.8, 0}}
     });
 
+    add_multi_nodes_and(BaseConScalinata, graph, {
+            {BaseConScalinata, {0,0,1}},
+            {tetto, {0, 0.8, 0}},
+    });
+    add_multi_nodes_and(BaseConScalinata, graph, {
+            {BaseConScalinata, {0,0,1}},
+            {pianoFinestre,  {0, 0.8, 0}},
+    });
+    add_multi_nodes_and(BaseConScalinata, graph, {
+            {BaseConScalinata, {0,0,1}},
+            {tettoConFinestra, {1, 0.8, 0}},
+    });
+    add_multi_nodes_and(BaseConScalinata, graph, {
+            {BaseConScalinata, {0,0,1}},
+            {pianoFinestroneBalcone, {0, 0.8, 0}}
+    });
+
+
+    add_multi_nodes_and(BaseConScalinata, graph, {
+            {baseConFinestreEPortone, {0,0,1}},
+            {tetto, {0, 0.8, 0}},
+    });
+    add_multi_nodes_and(BaseConScalinata, graph, {
+            {baseConFinestreEPortone, {0,0,1}},
+            {pianoFinestre,  {0, 0.8, 0}},
+    });
+    add_multi_nodes_and(BaseConScalinata, graph, {
+            {baseConFinestreEPortone, {0,0,1}},
+            {tettoConFinestra, {1, 0.8, 0}},
+    });
+    add_multi_nodes_and(BaseConScalinata, graph, {
+            {baseConFinestreEPortone, {0,0,1}},
+            {pianoFinestroneBalcone, {0, 0.8, 0}}
+    });
+
+
+
+
+
 
     add_multi_nodes_or(pianoFinestre, graph, {
             {tetto, {0, 0.6, 0}},
@@ -218,6 +246,24 @@ Graph* build_graph_houses(scene* scen, std::map<string, material*>* mapMat) {
             {tettoConFinestra, {1, 0.6, 0}},
             {pianoFinestroneBalcone, {0, 0.6, 0}}
     });
+    // {baseConFinestreEPortone, {0,0,1}}
+    add_multi_nodes_and(baseConFinestreEPortone, graph, {
+            {baseConFinestreEPortone, {0,0,1}},
+            {tetto, {0, 0.6, 0}},
+    });
+    add_multi_nodes_and(baseConFinestreEPortone, graph, {
+            {baseConFinestreEPortone, {0,0,1}},
+            {pianoFinestre,  {0, 0.6, 0}},
+    });
+    add_multi_nodes_and(baseConFinestreEPortone, graph, {
+            {baseConFinestreEPortone, {0,0,1}},
+            {tettoConFinestra, {1, 0.6, 0}},
+    });
+    add_multi_nodes_and(baseConFinestreEPortone, graph, {
+            {baseConFinestreEPortone, {0,0,1}},
+            {pianoFinestroneBalcone, {0, 0.6, 0}}
+    });
+
 
 
     graph->nodeStart = startNode.graphPos;
@@ -233,8 +279,8 @@ void build (scene* scn, Graph* graph, long inode,frame3f pos,rng_pcg32& rng) {
     auto ir = next_rand1i(rng,node.adj.size());
     print("value gen: {} values: {} \n",ir, node.adj.size()-1);
     for (auto edge : node.adj.at(ir) ) {
-        pos.o += edge.constanValue;
-        build(scn,graph, edge.indexNode,pos,rng);
+        auto newPos = frame3f{pos.x,pos.y,pos.z,(pos.o+ edge.constanValue)};
+        build(scn,graph, edge.indexNode,newPos,rng);
     }
 
 }
@@ -265,7 +311,7 @@ int main () {
 
     // add cam
     auto cam = new camera{"cam"};
-    cam->frame = lookat_frame3f({0, 4, 10}, {0, 1, 0}, {0, 1, 0});
+    cam->frame = lookat_frame3f({-10, 4, 10}, {0, 1, 0}, {0, 1, 0});
     cam->yfov = 15 * pif / 180.f;
     cam->aspect = 16.0f / 9.0f;
     cam->aperture = 0;

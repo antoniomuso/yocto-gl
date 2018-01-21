@@ -1,5 +1,5 @@
 mtllib file.mtl
-c cam 0 0.261799 1.77778 0 10.4403 1 0 0 0 0.957826 -0.287348 0 0.287348 0.957826 0 4 10
+c cam 0 0.261799 1.77778 0 10.4403 0.707107 -0 0.707107 0.146735 0.978232 -0.146735 -0.691715 0.207514 0.691715 -10 4 10
 i light light 1 0 0 0 1 0 0 0 1 0 0 0
 i floor floor 1 0 0 0 1 0 0 0 1 0 0 0
 i Instance:2 Shape:2 1 0 0 0 1 0 0 0 1 0 0 0
@@ -7,12 +7,47 @@ i Instance:3 Shape:3 1 0 0 0 1 0 0 0 1 0 0 0
 i Instance:4 Shape:4 1 0 0 0 1 0 0 0 1 0 0 0
 i Instance:5 Shape:5 1 0 0 0 1 0 0 0 1 0 0 0
 i Instance:6 Shape:6 1 0 0 0 1 0 0 0 1 0 0 0
-i Instance:7 Shape:21 1 0 0 0 1 0 0 0 1 0 0.8 0
-i Instance:8 Shape:22 1 0 0 0 1 0 0 0 1 0 0.8 0
-i Instance:9 Shape:23 1 0 0 0 1 0 0 0 1 0 0.8 0
-i Instance:10 Shape:24 1 0 0 0 1 0 0 0 1 0 0.8 0
-i Instance:11 Shape:25 1 0 0 0 1 0 0 0 1 0 0.8 0
-i Instance:12 Shape:26 1 0 0 0 1 0 0 0 1 0 0.8 0
+i Instance:7 Shape:2 1 0 0 0 1 0 0 0 1 0 0 1
+i Instance:8 Shape:3 1 0 0 0 1 0 0 0 1 0 0 1
+i Instance:9 Shape:4 1 0 0 0 1 0 0 0 1 0 0 1
+i Instance:10 Shape:5 1 0 0 0 1 0 0 0 1 0 0 1
+i Instance:11 Shape:6 1 0 0 0 1 0 0 0 1 0 0 1
+i Instance:12 Shape:18 1 0 0 0 1 0 0 0 1 0 0.8 1
+i Instance:13 Shape:19 1 0 0 0 1 0 0 0 1 0 0.8 1
+i Instance:14 Shape:20 1 0 0 0 1 0 0 0 1 0 0.8 1
+i Instance:15 Shape:7 1 0 0 0 1 0 0 0 1 0 1.4 1
+i Instance:16 Shape:8 1 0 0 0 1 0 0 0 1 0 1.4 1
+i Instance:17 Shape:9 1 0 0 0 1 0 0 0 1 0 1.4 1
+i Instance:18 Shape:10 1 0 0 0 1 0 0 0 1 0 1.4 1
+i Instance:19 Shape:11 1 0 0 0 1 0 0 0 1 0 1.4 1
+i Instance:20 Shape:18 1 0 0 0 1 0 0 0 1 0 2 1
+i Instance:21 Shape:19 1 0 0 0 1 0 0 0 1 0 2 1
+i Instance:22 Shape:20 1 0 0 0 1 0 0 0 1 0 2 1
+i Instance:23 Shape:21 1 0 0 0 1 0 0 0 1 0 2.6 1
+i Instance:24 Shape:22 1 0 0 0 1 0 0 0 1 0 2.6 1
+i Instance:25 Shape:23 1 0 0 0 1 0 0 0 1 0 2.6 1
+i Instance:26 Shape:24 1 0 0 0 1 0 0 0 1 0 2.6 1
+i Instance:27 Shape:25 1 0 0 0 1 0 0 0 1 0 2.6 1
+i Instance:28 Shape:26 1 0 0 0 1 0 0 0 1 0 2.6 1
+i Instance:29 Shape:7 1 0 0 0 1 0 0 0 1 0 0.8 0
+i Instance:30 Shape:8 1 0 0 0 1 0 0 0 1 0 0.8 0
+i Instance:31 Shape:9 1 0 0 0 1 0 0 0 1 0 0.8 0
+i Instance:32 Shape:10 1 0 0 0 1 0 0 0 1 0 0.8 0
+i Instance:33 Shape:11 1 0 0 0 1 0 0 0 1 0 0.8 0
+i Instance:34 Shape:18 1 0 0 0 1 0 0 0 1 0 1.4 0
+i Instance:35 Shape:19 1 0 0 0 1 0 0 0 1 0 1.4 0
+i Instance:36 Shape:20 1 0 0 0 1 0 0 0 1 0 1.4 0
+i Instance:37 Shape:7 1 0 0 0 1 0 0 0 1 0 2 0
+i Instance:38 Shape:8 1 0 0 0 1 0 0 0 1 0 2 0
+i Instance:39 Shape:9 1 0 0 0 1 0 0 0 1 0 2 0
+i Instance:40 Shape:10 1 0 0 0 1 0 0 0 1 0 2 0
+i Instance:41 Shape:11 1 0 0 0 1 0 0 0 1 0 2 0
+i Instance:42 Shape:21 1 0 0 0 1 0 0 0 1 0 2.6 0
+i Instance:43 Shape:22 1 0 0 0 1 0 0 0 1 0 2.6 0
+i Instance:44 Shape:23 1 0 0 0 1 0 0 0 1 0 2.6 0
+i Instance:45 Shape:24 1 0 0 0 1 0 0 0 1 0 2.6 0
+i Instance:46 Shape:25 1 0 0 0 1 0 0 0 1 0 2.6 0
+i Instance:47 Shape:26 1 0 0 0 1 0 0 0 1 0 2.6 0
 v 1.4 8 6
 v -1.4 8 6
 v -20 0 -20
