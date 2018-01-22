@@ -296,12 +296,13 @@ void build (scene* scn, Graph* graph, long inode,frame3f pos,rng_pcg32& rng) {
     auto ir = next_rand1i(rng,node.adj.size());
     print("value gen: {} values: {} \n",ir, node.adj.size()-1);
     for (auto edge : node.adj.at(ir) ) {
-        auto newPos = frame3f{pos.x,pos.y,pos.z,(pos.o+ edge.transf.constanValue)};
+        auto newPos = pos;
+        auto framTrasl = translation_frame3f(edge.transf.constanValue);
+        newPos = transform_frame(newPos,framTrasl);
+
         if (edge.transf.rotation != 0.0f) {
             auto f = rotation_frame3f(edge.transf.axesRotation, edge.transf.rotation * pif / 180.0f);
-            newPos.x = f.x;
-            newPos.y = f.y;
-            newPos.z = f.z;
+            newPos = transform_frame(newPos,f);
         }
         //auto newPoss =
         build(scn,graph, edge.indexNode,newPos,rng);
