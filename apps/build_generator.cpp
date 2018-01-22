@@ -132,6 +132,41 @@ void add_multi_nodes_and(node &nod, Graph *graph, vector<pair<node &, vec3f>> ve
 
 }
 
+void build_roads(scene* scen, std::map<string, material*>* mapMat, Graph* graph) {
+
+    auto stradaConPiccolaUscitaInBassoVerde = loadNode("ModelsRoads/roadTile_032.obj",scen,mapMat);
+    auto stradaConUscitaGrandeInBassoVerde = loadNode("ModelsRoads/roadTile_150.obj",scen,mapMat);
+    auto stradaDrittaBordiVerde = loadNode("ModelsRoads/roadTile_142.obj",scen,mapMat);
+    auto stradaDrittaSenzaUnBordoVerde= loadNode("ModelsRoads/roadTile_149.obj",scen,mapMat);
+    auto stradaDrittaVerde= loadNode("ModelsRoads/roadTile_183.obj",scen,mapMat);
+    auto incrocioAQuattroVerde = loadNode("ModelsRoads/roadTile_141.obj",scen,mapMat);
+    auto bloccoVerdePiano = loadNode("ModelsRoads/roadTile_168.obj",scen,mapMat);
+
+    auto stradaConPiccolaUscitaInBassoBianca = loadNode("ModelsRoads/roadTile_121.obj",scen,mapMat);
+    auto incrocioAQuattroBianco = loadNode("ModelsRoads/roadTile_121.obj",scen,mapMat);
+    auto stradaStrisceSenzaBianca = loadNode("ModelsRoads/roadTile_109.obj",scen,mapMat);
+    auto stradaDrittaConBordiGrossiBianca = loadNode("ModelsRoads/roadTile_109.obj",scen,mapMat);
+
+
+    auto house = graph->nodes.at(graph->nodeStart);
+
+    auto startNode = node{};
+
+
+    auto stradeDritte = node{};
+    add_multi_nodes_or(stradeDritte, graph, {
+            {stradaDrittaBordiVerde,{0,0,0}},
+            {stradaDrittaVerde, {0,0,0}},
+            {stradaDrittaSenzaUnBordoVerde, {0,0,0}}
+    });
+
+    //incrocio a quattro
+
+
+
+
+}
+
 
 Graph* build_graph_houses(scene* scen, std::map<string, material*>* mapMat) {
     auto graph = new Graph();
