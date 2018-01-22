@@ -6,9 +6,15 @@
 #include "../yocto/yocto_gl.h"
 using namespace ygl;
 
+struct transform {
+    vec3f constanValue = {0,0,0};
+    vec3f axesRotation = {0,1,0};
+    float rotation = 0;
+};
+
 struct edge {
     long indexNode;
-    vec3f constanValue;
+    transform transf;
 };
 
 struct node {
@@ -79,7 +85,7 @@ node loadNode(const string &filename, scene *scene,
     return nod;
 }
 
-void add_once_node_or(node &nod, node &nod1, vec3f constValue, Graph *graph) {
+void add_once_node_or(node &nod, node &nod1, transform constValue, Graph *graph) {
     if (nod1.graphPos == -1) {
         nod1.graphPos = graph->nodes.size();
         graph->nodes.push_back(nod1);
@@ -104,13 +110,13 @@ void add_once_node_or(node &nod, node &nod1, vec3f constValue, Graph *graph) {
 }
 
 
-void add_multi_nodes_or(node &nod, Graph *graph, vector<pair<node &, vec3f>> vect){
+void add_multi_nodes_or(node &nod, Graph *graph, vector<pair<node &, transform>> vect){
     for (auto tup : vect) {
         add_once_node_or(nod, tup.first, tup.second, graph);
     }
 }
 
-void add_multi_nodes_and(node &nod, Graph *graph, vector<pair<node &, vec3f>> vect) {
+void add_multi_nodes_and(node &nod, Graph *graph, vector<pair<node &, transform>> vect) {
     if (nod.graphPos == -1) {
         nod.graphPos = graph->nodes.size();
         graph->nodes.push_back(nod);
@@ -155,9 +161,9 @@ void build_roads(scene* scen, std::map<string, material*>* mapMat, Graph* graph)
 
     auto stradeDritte = node{};
     add_multi_nodes_or(stradeDritte, graph, {
-            {stradaDrittaBordiVerde,{0,0,0}},
-            {stradaDrittaVerde, {0,0,0}},
-            {stradaDrittaSenzaUnBordoVerde, {0,0,0}}
+            {stradaDrittaBordiVerde, {{0,0,0}}},
+            {stradaDrittaVerde, {{0,0,0}}},
+            {stradaDrittaSenzaUnBordoVerde, {{0,0,0}}}
     });
 
     //incrocio a quattro
@@ -200,25 +206,25 @@ Graph* build_graph_houses(scene* scen, std::map<string, material*>* mapMat) {
     auto piani = node{};
 
     add_multi_nodes_or(basi,graph, {
-            {BaseConScalinata,  {0, 0, 0}},
-            {baseConFinestreEPortone, {0, 0, 0}},
+            {BaseConScalinata,  {{0,0,0},{0,1,0},90.0f}},
+            {baseConFinestreEPortone, {}},
     });
 
     add_multi_nodes_or(tetti, graph, {
-            {tetto, {0, 0, 0}},
-            {tettoConFinestra, {1, 0, 0}},
-            {tettoTriangolo, {0, 0, 0}}
+            {tetto, {}},
+            {tettoConFinestra, {{1, 0, 0}}},
+            {tettoTriangolo, {}}
     });
     add_multi_nodes_or(piani, graph, {
-            {pianoFinestre,  {0, 0, 0}},
-            {pianoFinestrone, {0, 0, 0}},
-            {pianoFinestreQuadrate, {0, 0, 0}},
-            {pianoConBalcone,{0,0,0}}
+            {pianoFinestre,  {}},
+            {pianoFinestrone, {}},
+            {pianoFinestreQuadrate, {}},
+            {pianoConBalcone,{}}
     });
 
     //Metto che la variabile di start parte con una base
     add_multi_nodes_or(startNode, graph, {
-            {basi,{0,0,0}}
+            {basi,{}}
     });
 
 
@@ -227,53 +233,53 @@ Graph* build_graph_houses(scene* scen, std::map<string, material*>* mapMat) {
 
     //Varaibile BaseConScalinata
     add_multi_nodes_or(BaseConScalinata, graph, {
-            {piani,  {0, 0.8, 0}},
-            {tetti, {0, 0.8, 0}}
+            {piani,  {{0, 0.8, 0}}},
+            {tetti, {{0, 0.8, 0}}}
     });
 
     add_multi_nodes_and(BaseConScalinata, graph, {
-            {basi, {0,0,1}},
-            {tetti, {0, 0.8, 0}},
+            {basi, {{0,0,1}}},
+            {tetti, {{0, 0.8, 0}}},
     });
     add_multi_nodes_and(BaseConScalinata, graph, {
-            {basi, {0,0,1}},
-            {piani,  {0, 0.8, 0}},
+            {basi, {{0,0,1}}},
+            {piani,  {{0, 0.8, 0}}},
     });
 
 
     //Variabili piani
     add_multi_nodes_or(pianoFinestre, graph, {
-            {tetti, {0, 0.6, 0}},
-            {piani,  {0, 0.6, 0}}
+            {tetti, {{0, 0.6, 0}}},
+            {piani,  {{0, 0.6, 0}}}
     });
 
     add_multi_nodes_or(pianoFinestrone, graph, {
-            {tetti, {0, 0.6, 0}},
-            {piani,  {0, 0.6, 0}}
+            {tetti, {{0, 0.6, 0}}},
+            {piani,  {{0, 0.6, 0}}}
     });
 
     add_multi_nodes_or(pianoFinestreQuadrate, graph, {
-            {tetti, {0, 0.6, 0}},
-            {piani,  {0, 0.6, 0}}
+            {tetti, {{0, 0.6, 0}}},
+            {piani,  {{0, 0.6, 0}}}
     });
 
     add_multi_nodes_or(pianoConBalcone, graph, {
-            {tetti, {0, 0.6, 0}},
-            {piani,  {0, 0.6, 0}}
+            {tetti, {{0, 0.6, 0}}},
+            {piani,  {{0, 0.6, 0}}}
     });
 
     // Variabile Base con finestre
     add_multi_nodes_or(baseConFinestreEPortone, graph, {
-            {tetti, {0, 0.6, 0}},
-            {piani, {0, 0.6, 0}}
+            {tetti, {{0, 0.6, 0}}},
+            {piani, {{0, 0.6, 0}}}
     });
     add_multi_nodes_and(baseConFinestreEPortone, graph, {
-            {basi, {0,0,1}},
-            {tetti, {0, 0.6, 0}},
+            {basi, {{0,0,1}}},
+            {tetti, {{0, 0.6, 0}}},
     });
     add_multi_nodes_and(baseConFinestreEPortone, graph, {
-            {basi, {0,0,1}},
-            {piani,  {0, 0.6, 0}},
+            {basi, {{0,0,1}}},
+            {piani,  {{0, 0.6, 0}}}
     });
 
     //Inserisco la variabile startNode come nodo di partenza
@@ -290,7 +296,14 @@ void build (scene* scn, Graph* graph, long inode,frame3f pos,rng_pcg32& rng) {
     auto ir = next_rand1i(rng,node.adj.size());
     print("value gen: {} values: {} \n",ir, node.adj.size()-1);
     for (auto edge : node.adj.at(ir) ) {
-        auto newPos = frame3f{pos.x,pos.y,pos.z,(pos.o+ edge.constanValue)};
+        auto newPos = frame3f{pos.x,pos.y,pos.z,(pos.o+ edge.transf.constanValue)};
+        if (edge.transf.rotation != 0.0f) {
+            auto f = rotation_frame3f(edge.transf.axesRotation, edge.transf.rotation * pif / 180.0f);
+            newPos.x = f.x;
+            newPos.y = f.y;
+            newPos.z = f.z;
+        }
+        //auto newPoss =
         build(scn,graph, edge.indexNode,newPos,rng);
     }
 
