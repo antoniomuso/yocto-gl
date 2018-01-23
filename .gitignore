@@ -3,3 +3,4 @@ cmake
 tests
 build
 cmake-build-debug
+.idea	

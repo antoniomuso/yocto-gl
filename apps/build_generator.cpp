@@ -169,6 +169,7 @@ void build_roads(scene* scen, std::map<string, material*>* mapMat, Graph* graph)
 
     add_multi_nodes_or(stradeDritte, graph, {
             {stradaDrittaBianca, {{1.0f,0,0}}},
+            {stradaDrittaBianca, {{1.0f,0,0}}},
             {terminal,{}}
     });
 
