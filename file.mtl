@@ -50,9 +50,27 @@ newmtl Metal.002
   Ks 0.33 0.33 0.33
   Ns 2e+16
 
+newmtl Brick.001
+  illum 2
+  Kd 0.917647 0.898039 0.811765
+  Ks 0.33 0.33 0.33
+  Ns 2e+16
+
 newmtl Green
   illum 2
   Kd 0.541176 0.709804 0.286275
+  Ks 0.33 0.33 0.33
+  Ns 2e+16
+
+newmtl Wood
+  illum 2
+  Kd 0.615686 0.454902 0.282353
+  Ks 0.33 0.33 0.33
+  Ns 2e+16
+
+newmtl Wood.001
+  illum 2
+  Kd 0.615686 0.454902 0.282353
   Ks 0.33 0.33 0.33
   Ns 2e+16
 

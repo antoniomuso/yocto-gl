@@ -170,6 +170,13 @@ void build_roads(scene* scen, std::map<string, material*>* mapMat, Graph* graph)
     add_multi_nodes_or(stradeDritte, graph, {
             {stradaDrittaBianca, {{1.0f,0,0}}},
             {stradaDrittaBianca, {{1.0f,0,0}}},
+            {stradaDrittaBianca, {{1.0f,0,0}}},
+            {stradaDrittaBianca, {{1.0f,0,0}}},
+            {stradaDrittaBianca, {{1.0f,0,0}}},
+            {stradaDrittaBianca, {{1.0f,0,0}}},
+            {stradaDrittaBianca, {{1.0f,0,0}}},
+            {stradaDrittaBianca, {{1.0f,0,0}}},
+            {stradaDrittaBianca, {{1.0f,0,0}}},
             {terminal,{}}
     });
 
@@ -211,7 +218,7 @@ Graph* build_graph_houses(scene* scen, std::map<string, material*>* mapMat) {
     auto pianoFinestrone = loadNode("myModel/modularBuildings_041.obj", scen, mapMat); // piano con finestrona grossa e balconcino
     auto pianoFinestreQuadrate = loadNode("myModel/modularBuildings_034.obj", scen, mapMat);
     auto pianoConBalcone = loadNode("Models/modularBuildings_042.obj", scen, mapMat);
-    auto pianoConFinestreCoperte = loadNode("Models/modularBuildings_033.obj", scen, mapMat);
+    auto pianoConFinestreCoperte = loadNode("myModel/modularBuildings_033.obj", scen, mapMat);
 
     // load roofs
     auto tetto = loadNode("Models/modularBuildings_044.obj", scen, mapMat);
@@ -243,7 +250,8 @@ Graph* build_graph_houses(scene* scen, std::map<string, material*>* mapMat) {
             {pianoFinestre,  {}},
             {pianoFinestrone, {}},
             {pianoFinestreQuadrate, {}},
-            {pianoConBalcone,{}}
+            {pianoConBalcone,{}},
+            {pianoConFinestreCoperte,{}}
     });
 
     //Metto che la variabile di start parte con una base
@@ -278,6 +286,11 @@ Graph* build_graph_houses(scene* scen, std::map<string, material*>* mapMat) {
     });
 
     add_multi_nodes_or(pianoConBalcone, graph, {
+            {tetti, {{0, 0.6, 0}}},
+            {piani,  {{0, 0.6, 0}}}
+    });
+
+    add_multi_nodes_or(pianoConFinestreCoperte, graph, {
             {tetti, {{0, 0.6, 0}}},
             {piani,  {{0, 0.6, 0}}}
     });
