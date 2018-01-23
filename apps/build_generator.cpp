@@ -145,7 +145,7 @@ void build_roads(scene* scen, std::map<string, material*>* mapMat, Graph* graph)
     auto stradaConUscitaGrandeInBassoVerde = loadNode("ModelsRoads/roadTile_150.obj",scen,mapMat);
     auto stradaDrittaBordiVerde = loadNode("myModel/roadTile_142.obj",scen,mapMat);
     auto stradaDrittaSenzaUnBordoVerde= loadNode("ModelsRoads/roadTile_149.obj",scen,mapMat);
-    auto stradaDrittaVerde= loadNode("ModelsRoads/roadTile_183.obj",scen,mapMat);
+    auto stradaDrittaVerdeRialzata= loadNode("ModelsRoads/roadTile_183.obj",scen,mapMat);
     auto incrocioAQuattroVerde = loadNode("ModelsRoads/roadTile_141.obj",scen,mapMat);
     auto bloccoVerdePiano = loadNode("ModelsRoads/roadTile_168.obj",scen,mapMat);
 
@@ -153,6 +153,7 @@ void build_roads(scene* scen, std::map<string, material*>* mapMat, Graph* graph)
     auto incrocioAQuattroBianco = loadNode("ModelsRoads/roadTile_121.obj",scen,mapMat);
     auto stradaStrisceSenzaBianca = loadNode("ModelsRoads/roadTile_109.obj",scen,mapMat);
     auto stradaDrittaConBordiGrossiBianca = loadNode("ModelsRoads/roadTile_109.obj",scen,mapMat);
+    auto stradaDrittaBianca = loadNode("myModel/roadTile_292.obj",scen,mapMat);
 
 
     auto house = graph->nodes.at(graph->nodeStart);
@@ -167,21 +168,21 @@ void build_roads(scene* scen, std::map<string, material*>* mapMat, Graph* graph)
     auto terminal = node{};
 
     add_multi_nodes_or(stradeDritte, graph, {
-            {stradaDrittaBordiVerde, {{1,0,0}}},
+            {stradaDrittaBianca, {{1.0f,0,0}}},
             {terminal,{}}
     });
 
-    add_multi_nodes_or(stradaDrittaBordiVerde,graph,{
+    add_multi_nodes_or(stradaDrittaBianca,graph,{
             {stradeDritte, {}}
     });
-    add_multi_nodes_or(stradaDrittaVerde,graph,{
+    add_multi_nodes_or(stradaDrittaVerdeRialzata,graph,{
             {stradeDritte, {}}
     });
     add_multi_nodes_or(stradaDrittaSenzaUnBordoVerde,graph,{
             {stradeDritte, {}}
     });
 
-    add_multi_nodes_and(stradaDrittaBordiVerde,graph, {
+    add_multi_nodes_and(stradaDrittaBianca,graph, {
             {stradeDritte,{}},
             {house,{{0,0.2,-1.0f},90.0f}}
     });
