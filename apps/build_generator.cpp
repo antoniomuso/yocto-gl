@@ -8,8 +8,9 @@ using namespace ygl;
 
 struct transform {
     vec3f constanValue = {0,0,0};
-    vec3f axesRotation = {0,1,0};
     float rotation = 0;
+    vec3f axesRotation = {0,1,0};
+    vec3f scale = {0,0,0};
 };
 
 struct edge {
@@ -142,7 +143,7 @@ void build_roads(scene* scen, std::map<string, material*>* mapMat, Graph* graph)
 
     auto stradaConPiccolaUscitaInBassoVerde = loadNode("ModelsRoads/roadTile_032.obj",scen,mapMat);
     auto stradaConUscitaGrandeInBassoVerde = loadNode("ModelsRoads/roadTile_150.obj",scen,mapMat);
-    auto stradaDrittaBordiVerde = loadNode("ModelsRoads/roadTile_142.obj",scen,mapMat);
+    auto stradaDrittaBordiVerde = loadNode("myModel/roadTile_142.obj",scen,mapMat);
     auto stradaDrittaSenzaUnBordoVerde= loadNode("ModelsRoads/roadTile_149.obj",scen,mapMat);
     auto stradaDrittaVerde= loadNode("ModelsRoads/roadTile_183.obj",scen,mapMat);
     auto incrocioAQuattroVerde = loadNode("ModelsRoads/roadTile_141.obj",scen,mapMat);
@@ -160,16 +161,13 @@ void build_roads(scene* scen, std::map<string, material*>* mapMat, Graph* graph)
     auto stradeDritte = node{};
 
     add_multi_nodes_or(startNode,graph,{
-            {stradeDritte, {{}}},
-
+            {stradeDritte, {{}}}
     });
 
     auto terminal = node{};
 
     add_multi_nodes_or(stradeDritte, graph, {
-            {stradaDrittaBordiVerde, {{3,0,0}}},
-            {stradaDrittaVerde, {{3,0,0}}},
-            {stradaDrittaSenzaUnBordoVerde, {{3,0,0}}},
+            {stradaDrittaBordiVerde, {{1,0,0}}},
             {terminal,{}}
     });
 
@@ -182,6 +180,12 @@ void build_roads(scene* scen, std::map<string, material*>* mapMat, Graph* graph)
     add_multi_nodes_or(stradaDrittaSenzaUnBordoVerde,graph,{
             {stradeDritte, {}}
     });
+
+    add_multi_nodes_and(stradaDrittaBordiVerde,graph, {
+            {stradeDritte,{}},
+            {house,{{0,0.2,-1.0f},90.0f}}
+    });
+
 
     //incrocio a quattro
 
@@ -300,6 +304,11 @@ void build (scene* scn, Graph* graph, long inode,frame3f pos,rng_pcg32& rng) {
         auto newPos = pos;
         auto framTrasl = translation_frame3f(edge.transf.constanValue);
         newPos = transform_frame(newPos,framTrasl);
+
+        if (edge.transf.scale != vec3f{0,0,0}) {
+            auto framScale = scaling_frame3f(edge.transf.scale);
+            newPos = transform_frame(newPos,framScale);
+        }
 
         if (edge.transf.rotation != 0.0f) {
             auto f = rotation_frame3f(edge.transf.axesRotation, edge.transf.rotation * pif / 180.0f);
