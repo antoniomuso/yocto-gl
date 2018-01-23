@@ -68,3 +68,33 @@ newmtl FrontColor
   Ks 0.33 0.33 0.33
   Ns 2e+16
 
+newmtl Asphalt
+  illum 2
+  Kd 0.411765 0.411765 0.411765
+  Ks 0.33 0.33 0.33
+  Ns 2e+16
+
+newmtl Grass
+  illum 2
+  Kd 0.541176 0.709804 0.286275
+  Ks 0.33 0.33 0.33
+  Ns 2e+16
+
+newmtl Stone
+  illum 2
+  Kd 0.847059 0.827451 0.74902
+  Ks 0.33 0.33 0.33
+  Ns 2e+16
+
+newmtl Water
+  illum 2
+  Kd 0.690196 0.843137 0.964706
+  Ks 0.33 0.33 0.33
+  Ns 2e+16
+
+newmtl White
+  illum 2
+  Kd 1 1 1
+  Ks 0.33 0.33 0.33
+  Ns 2e+16
+

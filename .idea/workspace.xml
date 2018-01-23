@@ -35,8 +35,8 @@
       <file leaf-file-name="build_generator.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/apps/build_generator.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="555">
-              <caret line="308" column="9" lean-forward="false" selection-start-line="308" selection-start-column="9" selection-end-line="308" selection-end-column="9" />
+            <state relative-caret-position="7800">
+              <caret line="300" column="30" lean-forward="false" selection-start-line="300" selection-start-column="30" selection-end-line="300" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -45,8 +45,8 @@
       <file leaf-file-name="yocto_gltf.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/yocto/yocto_gltf.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="296">
-              <caret line="1091" column="39" lean-forward="false" selection-start-line="1091" selection-start-column="31" selection-end-line="1091" selection-end-column="39" />
+            <state relative-caret-position="114">
+              <caret line="1084" column="21" lean-forward="false" selection-start-line="1084" selection-start-column="21" selection-end-line="1084" selection-end-column="21" />
               <folding />
             </state>
           </provider>
@@ -55,8 +55,8 @@
       <file leaf-file-name="yocto_gl.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/yocto/yocto_gl.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="310">
-              <caret line="1555" column="19" lean-forward="false" selection-start-line="1555" selection-start-column="13" selection-end-line="1555" selection-end-column="19" />
+            <state relative-caret-position="-8140">
+              <caret line="7922" column="19" lean-forward="false" selection-start-line="7922" selection-start-column="19" selection-end-line="7922" selection-end-column="19" />
               <folding />
             </state>
           </provider>
@@ -74,12 +74,10 @@
       <find>join(</find>
       <find>li</find>
       <find>load_sce</find>
-      <find>scale</find>
       <find>ob</find>
       <find>obj</find>
       <find>scn</find>
       <find>shape_</find>
-      <find>shape</find>
       <find>join</find>
       <find>mesh</find>
       <find>frame</find>
@@ -93,6 +91,9 @@
       <find>length</find>
       <find>vec3f</find>
       <find>len</find>
+      <find>Scale</find>
+      <find>scale</find>
+      <find>shape</find>
     </findStrings>
   </component>
   <component name="IdeDocumentHistory">
@@ -103,6 +104,7 @@
         <option value="$PROJECT_DIR$/apps/yimview.cpp" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/apps/build_generator.cpp" />
+        <option value="$PROJECT_DIR$/yocto/yocto_gltf.cpp" />
       </list>
     </option>
   </component>
@@ -444,14 +446,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/yocto/yocto_gltf.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="296">
-          <caret line="1091" column="39" lean-forward="false" selection-start-line="1091" selection-start-column="31" selection-end-line="1091" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="104">
@@ -607,16 +601,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/yocto/yocto_gl.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="310">
-          <caret line="1555" column="19" lean-forward="false" selection-start-line="1555" selection-start-column="13" selection-end-line="1555" selection-end-column="19" />
+        <state relative-caret-position="-8140">
+          <caret line="7922" column="19" lean-forward="false" selection-start-line="7922" selection-start-column="19" selection-end-line="7922" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/yocto/yocto_gltf.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114">
+          <caret line="1084" column="21" lean-forward="false" selection-start-line="1084" selection-start-column="21" selection-end-line="1084" selection-end-column="21" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/build_generator.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="555">
-          <caret line="308" column="9" lean-forward="false" selection-start-line="308" selection-start-column="9" selection-end-line="308" selection-end-column="9" />
+        <state relative-caret-position="7800">
+          <caret line="300" column="30" lean-forward="false" selection-start-line="300" selection-start-column="30" selection-end-line="300" selection-end-column="30" />
           <folding />
         </state>
       </provider>

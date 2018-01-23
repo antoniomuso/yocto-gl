@@ -157,17 +157,35 @@ void build_roads(scene* scen, std::map<string, material*>* mapMat, Graph* graph)
     auto house = graph->nodes.at(graph->nodeStart);
 
     auto startNode = node{};
-
-
     auto stradeDritte = node{};
+
+    add_multi_nodes_or(startNode,graph,{
+            {stradeDritte, {{}}},
+
+    });
+
+    auto terminal = node{};
+
     add_multi_nodes_or(stradeDritte, graph, {
-            {stradaDrittaBordiVerde, {{0,0,0}}},
-            {stradaDrittaVerde, {{0,0,0}}},
-            {stradaDrittaSenzaUnBordoVerde, {{0,0,0}}}
+            {stradaDrittaBordiVerde, {{3,0,0}}},
+            {stradaDrittaVerde, {{3,0,0}}},
+            {stradaDrittaSenzaUnBordoVerde, {{3,0,0}}},
+            {terminal,{}}
+    });
+
+    add_multi_nodes_or(stradaDrittaBordiVerde,graph,{
+            {stradeDritte, {}}
+    });
+    add_multi_nodes_or(stradaDrittaVerde,graph,{
+            {stradeDritte, {}}
+    });
+    add_multi_nodes_or(stradaDrittaSenzaUnBordoVerde,graph,{
+            {stradeDritte, {}}
     });
 
     //incrocio a quattro
 
+    graph->nodeStart = startNode.graphPos;
 
 
 
@@ -206,7 +224,7 @@ Graph* build_graph_houses(scene* scen, std::map<string, material*>* mapMat) {
     auto piani = node{};
 
     add_multi_nodes_or(basi,graph, {
-            {BaseConScalinata,  {{0,0,0},{0,1,0},90.0f}},
+            {BaseConScalinata,  {}},
             {baseConFinestreEPortone, {}},
     });
 
@@ -237,16 +255,6 @@ Graph* build_graph_houses(scene* scen, std::map<string, material*>* mapMat) {
             {tetti, {{0, 0.8, 0}}}
     });
 
-    add_multi_nodes_and(BaseConScalinata, graph, {
-            {basi, {{0,0,1}}},
-            {tetti, {{0, 0.8, 0}}},
-    });
-    add_multi_nodes_and(BaseConScalinata, graph, {
-            {basi, {{0,0,1}}},
-            {piani,  {{0, 0.8, 0}}},
-    });
-
-
     //Variabili piani
     add_multi_nodes_or(pianoFinestre, graph, {
             {tetti, {{0, 0.6, 0}}},
@@ -273,14 +281,7 @@ Graph* build_graph_houses(scene* scen, std::map<string, material*>* mapMat) {
             {tetti, {{0, 0.6, 0}}},
             {piani, {{0, 0.6, 0}}}
     });
-    add_multi_nodes_and(baseConFinestreEPortone, graph, {
-            {basi, {{0,0,1}}},
-            {tetti, {{0, 0.6, 0}}},
-    });
-    add_multi_nodes_and(baseConFinestreEPortone, graph, {
-            {basi, {{0,0,1}}},
-            {piani,  {{0, 0.6, 0}}}
-    });
+
 
     //Inserisco la variabile startNode come nodo di partenza
     graph->nodeStart = startNode.graphPos;
@@ -361,7 +362,7 @@ int main () {
 
 
     auto graph = build_graph_houses(scen,mapMat);
-
+    build_roads(scen,mapMat,graph);
     auto rng =  init_rng(0, static_cast<uint64_t>(time(NULL)));
 
     build(scen,graph,graph->nodeStart,identity_frame3f,rng);
