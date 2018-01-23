@@ -303,8 +303,10 @@ void build (scene* scn, Graph* graph, long inode,frame3f pos,rng_pcg32& rng) {
         if (edge.transf.rotation != 0.0f) {
             auto f = rotation_frame3f(edge.transf.axesRotation, edge.transf.rotation * pif / 180.0f);
             newPos = transform_frame(newPos,f);
+            // Riposiziona l'oggetto nella posizione precedente alla rotazione
+            auto reposition = translation_frame3f({0,0,length(newPos.z)});
+            newPos = transform_frame(newPos,reposition);
         }
-        //auto newPoss =
         build(scn,graph, edge.indexNode,newPos,rng);
     }
 
