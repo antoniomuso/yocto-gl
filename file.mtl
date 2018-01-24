@@ -34,12 +34,17 @@ newmtl Metal
   Kd 0.882353 0.886275 0.901961
   Ns 2e+16
 
-newmtl Metal.001
+newmtl Metal.002
   illum 2
   Kd 0.882353 0.886275 0.901961
   Ns 2e+16
 
-newmtl Metal.002
+newmtl Metal.003
+  illum 2
+  Kd 0.882353 0.886275 0.901961
+  Ns 2e+16
+
+newmtl Metal.001
   illum 2
   Kd 0.882353 0.886275 0.901961
   Ns 2e+16

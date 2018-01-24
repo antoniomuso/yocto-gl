@@ -28,7 +28,7 @@ struct edge {
 
 struct node {
     bool isTerminal = false;
-    vector<vector<edge>> adj;
+    vector<vector<edge>*> adj;
     vector<shape*> shapes;
     long graphPos = -1;
 };
@@ -108,9 +108,9 @@ void add_once_node_or(node &nod, node &nod1, transform constValue, Graph *graph)
     auto node1 = graph->nodes.at(nod1.graphPos);
 
     //Inserisco un nuovo vettore di archi
-    node.adj.push_back(vector<edge>());
+    node.adj.push_back(new vector<edge>());
     //Inserisco dentro il vettore di archi l'arco con il nodo da aggiungere
-    node.adj.at(node.adj.size()-1).push_back(edge{node1.graphPos,constValue});
+    node.adj.at(node.adj.size()-1)->push_back(edge{node1.graphPos,constValue});
 
     // Mi assicuro che il nodo venga salvato
     graph->nodes.at(node.graphPos) = node;
@@ -131,7 +131,7 @@ void add_multi_nodes_and(node &nod, Graph *graph, vector<pair<node &, transform>
         graph->nodes.push_back(nod);
     }
     auto node = graph->nodes.at(nod.graphPos);
-    auto vectEdge = vector<edge>();
+    auto vectEdge = new vector<edge>();
     for (auto pair : vect) {
         if (pair.first.graphPos == -1) {
             pair.first.graphPos = graph->nodes.size();
@@ -139,7 +139,7 @@ void add_multi_nodes_and(node &nod, Graph *graph, vector<pair<node &, transform>
         }
 
         auto node1 = graph->nodes.at(pair.first.graphPos);
-        vectEdge.push_back(edge{node1.graphPos,pair.second});
+        vectEdge->push_back(edge{node1.graphPos,pair.second});
     }
 
     node.adj.push_back(vectEdge);
@@ -154,7 +154,7 @@ void build (scene* scn, Graph* graph, long inode,frame3f pos,rng_pcg32& rng) {
     if (node.adj.size() == 0 ) return ;
     auto ir = next_rand1i(rng,node.adj.size());
     print("value gen: {} values: {} \n",ir, node.adj.size()-1);
-    for (auto edge : node.adj.at(ir) ) {
+    for (auto edge : *(node.adj.at(ir)) ) {
         auto newPos = pos;
         auto framTrasl = translation_frame3f(edge.transf.constanValue);
         newPos = transform_frame(newPos,framTrasl);
@@ -297,6 +297,7 @@ Graph* build_graph_houses(scene* scen, std::map<string, material*>* mapMat) {
 
     // load houses
     auto BaseConScalinata = loadNode("myModel/modularBuildings_027.obj", scen, mapMat);
+    auto BaseConScalinataEFinestre = loadNode("myModel/modularBuildings_024.obj", scen, mapMat);
     auto baseConFinestreEPortone = loadNode("myModel/modularBuildings_054.obj", scen, mapMat); //
 
     // piani
@@ -310,6 +311,9 @@ Graph* build_graph_houses(scene* scen, std::map<string, material*>* mapMat) {
     auto tetto = loadNode("Models/modularBuildings_044.obj", scen, mapMat);
     auto tettoConFinestra = loadNode("Models/modularBuildings_063.obj", scen, mapMat);
     auto tettoTriangolo = loadNode("Models/modularBuildings_065.obj", scen, mapMat);
+    auto tetto2 = loadNode("Models/modularBuildings_051.obj", scen, mapMat);
+    auto tetto3 = loadNode("Models/modularBuildings_064.obj", scen, mapMat);
+    auto tetto4 = loadNode("Models/modularBuildings_052.obj", scen, mapMat);
 
 
     //finestre
@@ -325,12 +329,16 @@ Graph* build_graph_houses(scene* scen, std::map<string, material*>* mapMat) {
     add_multi_nodes_or(basi,graph, {
             {BaseConScalinata,  {}},
             {baseConFinestreEPortone, {}},
+            {BaseConScalinataEFinestre,{}}
     });
 
     add_multi_nodes_or(tetti, graph, {
             {tetto, {}},
             {tettoConFinestra, {{1, 0, 0}}},
-            {tettoTriangolo, {}}
+            {tettoTriangolo, {}},
+            //{tetto2,{{1,0,0}}},
+            //{tetto3,{{1,0,0}}},
+            {tetto4,{{1,0,0}}}
     });
     add_multi_nodes_or(piani, graph, {
             {pianoFinestre,  {}},
@@ -354,6 +362,12 @@ Graph* build_graph_houses(scene* scen, std::map<string, material*>* mapMat) {
             {piani,  {{0, 0.8, 0}}},
             {tetti, {{0, 0.8, 0}}}
     });
+
+    add_multi_nodes_or(BaseConScalinataEFinestre, graph, {
+            {piani,  {{0, 0.8, 0}}},
+            {tetti, {{0, 0.8, 0}}}
+    });
+
 
     //Variabili piani
     add_multi_nodes_or(pianoFinestre, graph, {
