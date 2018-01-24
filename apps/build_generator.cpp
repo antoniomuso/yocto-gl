@@ -65,10 +65,10 @@ node loadNode(const string &filename, scene *scene,
         auto mater = new material();
         mater->name = mat->name;
         mater->kd = mat->kd;
-        mater->ks = mat->ks;
-        mater->kt = mat->kt;
-        mater->kr = mat->kr;
-        mater->ke = mat->ke;
+        //mater->ks = mat->ks;
+        //mater->kt = mat->kt;
+        //mater->kr = mat->kr; // le mesh sono troppo riflettenti
+        //mater->ke = mat->ke;
         (*mapMat)[mat->name] = mater;
         scene->materials.push_back(mater);
     }
@@ -186,30 +186,32 @@ void build (scene* scn, Graph* graph, long inode,frame3f pos,rng_pcg32& rng) {
 void build_roads(scene* scen, std::map<string, material*>* mapMat, Graph* graph) {
 
     auto stradaConStrisciPedonale =  loadNode("myModel/roadTile_025.obj",scen,mapMat);
-    auto stradaConPiccolaUscitaInBassoVerde = loadNode("ModelsRoads/roadTile_032.obj",scen,mapMat);
+    auto stradaConPiccolaUscitaInBassoVerde = loadNode("myModel/roadTile_032.obj",scen,mapMat);
     auto stradaConUscitaGrandeInBassoVerde = loadNode("myModel/roadTile_150.obj",scen,mapMat);
     auto stradaDrittaBordiVerde = loadNode("myModel/roadTile_142.obj",scen,mapMat);
-    auto stradaDrittaSenzaUnBordoVerde= loadNode("ModelsRoads/roadTile_149.obj",scen,mapMat);
-    auto stradaDrittaVerdeRialzata= loadNode("ModelsRoads/roadTile_183.obj",scen,mapMat);
-    auto incrocioAQuattroVerde = loadNode("ModelsRoads/roadTile_141.obj",scen,mapMat);
-    auto bloccoVerdePiano = loadNode("ModelsRoads/roadTile_168.obj",scen,mapMat);
+    //auto stradaDrittaSenzaUnBordoVerde= loadNode("ModelsRoads/roadTile_149.obj",scen,mapMat);
+    //auto stradaDrittaVerdeRialzata= loadNode("ModelsRoads/roadTile_183.obj",scen,mapMat);
+    //auto incrocioAQuattroVerde = loadNode("ModelsRoads/roadTile_141.obj",scen,mapMat);
+    //auto bloccoVerdePiano = loadNode("ModelsRoads/roadTile_168.obj",scen,mapMat);
     auto stradaChiusa = loadNode("myModel/roadTile_038.obj",scen,mapMat);
 
 
-    auto stradaConPiccolaUscitaInBassoBianca = loadNode("ModelsRoads/roadTile_121.obj",scen,mapMat);
-    auto incrocioAQuattroBianco = loadNode("ModelsRoads/roadTile_121.obj",scen,mapMat);
-    auto stradaStrisceSenzaBianca = loadNode("ModelsRoads/roadTile_109.obj",scen,mapMat);
-    auto stradaDrittaConBordiGrossiBianca = loadNode("ModelsRoads/roadTile_109.obj",scen,mapMat);
+    //auto stradaConPiccolaUscitaInBassoBianca = loadNode("ModelsRoads/roadTile_121.obj",scen,mapMat);
+    //auto incrocioAQuattroBianco = loadNode("ModelsRoads/roadTile_121.obj",scen,mapMat);
+    //auto stradaStrisceSenzaBianca = loadNode("ModelsRoads/roadTile_109.obj",scen,mapMat);
+    //auto stradaDrittaConBordiGrossiBianca = loadNode("ModelsRoads/roadTile_109.obj",scen,mapMat);
     auto stradaDrittaBianca = loadNode("myModel/roadTile_292.obj",scen,mapMat);
 
 
     auto albero = loadNode("myModel/roadTile_019.obj",scen,mapMat);
+    auto alberoBig = loadNode("myModel/roadTile_020.obj",scen,mapMat);
 
     auto house = graph->nodes.at(graph->nodeStart);
 
     auto startNode = node{};
     auto stradeDritte = node{};
     auto stradeConCurve = node{};
+    auto alberi = node{};
 
     add_multi_nodes_or(startNode,graph,{
             {stradaConStrisciPedonale, {{}}},
@@ -228,6 +230,10 @@ void build_roads(scene* scen, std::map<string, material*>* mapMat, Graph* graph)
     add_multi_nodes_or(stradeConCurve, graph, {
             {stradaConUscitaGrandeInBassoVerde, {}}
     });
+    add_multi_nodes_or(alberi, graph, {
+            {albero, {}},
+            {alberoBig,{{0,0,0.125f}}}
+    });
 
     // Node Obj
     add_multi_nodes_or(stradaConStrisciPedonale,graph,{
@@ -240,12 +246,12 @@ void build_roads(scene* scen, std::map<string, material*>* mapMat, Graph* graph)
     });
     add_multi_nodes_and(stradaConStrisciPedonale,graph, {
             {stradeDritte,{{1,0,0}}},
-            {albero,{{0.2,0.2,0.11f}}}
+            {alberi,{{0.2,0.2,0.11f}}}
     });
     add_multi_nodes_and(stradaConStrisciPedonale,graph, {
             {stradeDritte,{{1,0,0}}},
             {house,{{0,0.2,-1.0f},_90}},
-            {albero,{{0.2,0.2,0.11f}}}
+            {alberi,{{0.2,0.2,0.11f}}}
     });
 
 
@@ -383,7 +389,8 @@ int main () {
     lshp->pos = {{1.4f, 8, 6}, {-1.4f, 8, 6}};
     lshp->points = {0, 1};
     auto lmat = new material{"light"};
-    lmat->ke = {100, 100, 100};
+    lmat->ke = {150, 150, 150};
+    lmat->kd =  {1.0f, 0.57647058823f, 0.16078431372f};
     lshp->mat = lmat;
 
     scen->shapes.push_back(lshp);
@@ -405,16 +412,16 @@ int main () {
     // add floor
 
     auto mat = new material{"floor"};
-    mat->kd = {0.2f, 0.2f, 0.2f};
+    mat->kd = {0.541176f, 0.709804f, 0.286275f};
     scen->materials.push_back(mat);
     auto shp = new shape{"floor"};
     shp->mat = mat;
-    shp->pos = {{-20, 0, -20}, {20, 0, -20}, {20, 0, 20}, {-20, 0, 20}};
+    shp->pos = {{-60, 0, -60}, {60, 0, -60}, {60, 0, 60}, {-60, 0, 60}};
     shp->norm = {{0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}};
     shp->texcoord = {{-10, -10}, {10, -10}, {10, 10}, {-10, 10}};
     shp->triangles = {{0, 1, 2}, {0, 2, 3}};
     scen->shapes.push_back(shp);
-    scen->instances.push_back(new instance{"floor", identity_frame3f, shp});
+    scen->instances.push_back(new instance{"floor", {{1,0,0},{0,1,0},{0,0,1},{0,0.15,0}}, shp});
 
 
     auto graph = build_graph_houses(scen,mapMat);
