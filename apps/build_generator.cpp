@@ -147,6 +147,42 @@ void add_multi_nodes_and(node &nod, Graph *graph, vector<pair<node &, transform>
 
 }
 
+void build (scene* scn, Graph* graph, long inode,frame3f pos,rng_pcg32& rng) {
+
+    auto node = graph->nodes.at(inode);
+    if (node.shapes.size() != 0) add_node_to_scene(scn,node, pos);
+    if (node.adj.size() == 0 ) return ;
+    auto ir = next_rand1i(rng,node.adj.size());
+    print("value gen: {} values: {} \n",ir, node.adj.size()-1);
+    for (auto edge : node.adj.at(ir) ) {
+        auto newPos = pos;
+        auto framTrasl = translation_frame3f(edge.transf.constanValue);
+        newPos = transform_frame(newPos,framTrasl);
+
+        if (edge.transf.scale != vec3f{0,0,0}) {
+            auto framScale = scaling_frame3f(edge.transf.scale);
+            newPos = transform_frame(newPos,framScale);
+        }
+        if (edge.transf.rotation != _0) {
+            auto angle = edge.transf.rotation * pif / 180.0f;
+            auto f = rotation_frame3f(edge.transf.axesRotation, angle);
+            newPos = transform_frame(newPos,f);
+            // Riposiziona l'oggetto nella posizione precedente alla rotazione
+            auto reposition = frame3f{};
+            if (edge.transf.rotation == _90) {
+                reposition = translation_frame3f({0,0,length(newPos.z)});
+            } else if (edge.transf.rotation == _180){
+                reposition = translation_frame3f({-length(newPos.x),0,length(newPos.z)});
+            } else if (edge.transf.rotation == _270) {
+                reposition = translation_frame3f({-length(newPos.x),0,0});
+            }
+            newPos = transform_frame(newPos,reposition);
+        }
+        build(scn,graph, edge.indexNode,newPos,rng);
+    }
+
+}
+
 void build_roads(scene* scen, std::map<string, material*>* mapMat, Graph* graph) {
 
     auto stradaConStrisciPedonale =  loadNode("myModel/roadTile_025.obj",scen,mapMat);
@@ -184,6 +220,9 @@ void build_roads(scene* scen, std::map<string, material*>* mapMat, Graph* graph)
     add_multi_nodes_or(stradeDritte, graph, {
             {stradaConStrisciPedonale, {}},
             {terminal, {}},
+            {stradaConStrisciPedonale, {}},
+            {stradaConStrisciPedonale, {}},
+            {stradaConStrisciPedonale, {}},
             {stradaConStrisciPedonale, {}}
     });
     add_multi_nodes_or(stradeConCurve, graph, {
@@ -212,24 +251,9 @@ void build_roads(scene* scen, std::map<string, material*>* mapMat, Graph* graph)
 
     add_multi_nodes_and(stradaConUscitaGrandeInBassoVerde,graph,{
             {stradeDritte,{{1,0,0}}},
-            {stradeDritte,{{0,0,1}, _90}}
+            {stradeDritte,{{0,0,1}, _270}}
     });
 
-
-
-
-    /*
-    add_multi_nodes_or(stradaDrittaVerdeRialzata,graph,{
-            {stradeDritte, {{0,0,1}}}
-    });
-    add_multi_nodes_or(stradaDrittaSenzaUnBordoVerde,graph,{
-            {stradeDritte, {{0,0,1}}}
-    });
-
-
-     */
-
-    //incrocio a quattro
 
     graph->nodeStart = startNode.graphPos;
 
@@ -341,41 +365,7 @@ Graph* build_graph_houses(scene* scen, std::map<string, material*>* mapMat) {
 
 }
 
-void build (scene* scn, Graph* graph, long inode,frame3f pos,rng_pcg32& rng) {
 
-    auto node = graph->nodes.at(inode);
-    if (node.shapes.size() != 0) add_node_to_scene(scn,node, pos);
-    if (node.adj.size() == 0 ) return ;
-    auto ir = next_rand1i(rng,node.adj.size());
-    print("value gen: {} values: {} \n",ir, node.adj.size()-1);
-    for (auto edge : node.adj.at(ir) ) {
-        auto newPos = pos;
-        auto framTrasl = translation_frame3f(edge.transf.constanValue);
-        newPos = transform_frame(newPos,framTrasl);
-
-        if (edge.transf.scale != vec3f{0,0,0}) {
-            auto framScale = scaling_frame3f(edge.transf.scale);
-            newPos = transform_frame(newPos,framScale);
-        }
-        if (edge.transf.rotation != _0) {
-            auto angle = edge.transf.rotation * pif / 180.0f;
-            auto f = rotation_frame3f(edge.transf.axesRotation, angle);
-            newPos = transform_frame(newPos,f);
-            // Riposiziona l'oggetto nella posizione precedente alla rotazione
-            auto reposition = frame3f{};
-            if (edge.transf.rotation == _90) {
-                reposition = translation_frame3f({0,0,length(newPos.z)});
-            } else if (edge.transf.rotation == _180){
-                reposition = translation_frame3f({-length(newPos.x),0,length(newPos.z)});
-            } else if (edge.transf.rotation == _270) {
-                reposition = translation_frame3f({length(newPos.x),0,0});
-            }
-            newPos = transform_frame(newPos,reposition);
-        }
-        build(scn,graph, edge.indexNode,newPos,rng);
-    }
-
-}
 
 
 
@@ -404,6 +394,8 @@ int main () {
     // add cam
     auto cam = new camera{"cam"};
     cam->frame = lookat_frame3f({-10, 4, 10}, {0, 1, 0}, {0, 1, 0});
+    cam->frame = transform_frame(cam->frame,translation_frame3f({0,0,10}));
+    cam->frame = transform_frame(cam->frame,rotation_frame3f({0,1,0},69.0f));
     cam->yfov = 15 * pif / 180.f;
     cam->aspect = 16.0f / 9.0f;
     cam->aperture = 0;
