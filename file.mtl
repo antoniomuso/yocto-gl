@@ -104,6 +104,12 @@ newmtl Stone
   Ks 0.33 0.33 0.33
   Ns 2e+16
 
+newmtl White
+  illum 2
+  Kd 1 1 1
+  Ks 0.33 0.33 0.33
+  Ns 2e+16
+
 newmtl Asphalt.001
   illum 2
   Kd 0.411765 0.411765 0.411765
@@ -128,12 +134,6 @@ newmtl Water
   Ks 0.33 0.33 0.33
   Ns 2e+16
 
-newmtl White
-  illum 2
-  Kd 1 1 1
-  Ks 0.33 0.33 0.33
-  Ns 2e+16
-
 newmtl Asphalt.003
   illum 2
   Kd 0.411765 0.411765 0.411765
@@ -143,6 +143,12 @@ newmtl Asphalt.003
 newmtl Stone.003
   illum 2
   Kd 0.847059 0.827451 0.74902
+  Ks 0.33 0.33 0.33
+  Ns 2e+16
+
+newmtl Alternate_Dirt
+  illum 2
+  Kd 0.721569 0.564706 0.396078
   Ks 0.33 0.33 0.33
   Ns 2e+16
 

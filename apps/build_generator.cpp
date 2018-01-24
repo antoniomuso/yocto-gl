@@ -6,9 +6,17 @@
 #include "../yocto/yocto_gl.h"
 using namespace ygl;
 
+enum angles {
+
+    _0 =0,
+    _90 =90,
+    _180 = 180,
+    _270 = 270,
+};
+
 struct transform {
     vec3f constanValue = {0,0,0};
-    float rotation = 0;
+    angles rotation = _0;
     vec3f axesRotation = {0,1,0};
     vec3f scale = {0,0,0};
 };
@@ -141,13 +149,16 @@ void add_multi_nodes_and(node &nod, Graph *graph, vector<pair<node &, transform>
 
 void build_roads(scene* scen, std::map<string, material*>* mapMat, Graph* graph) {
 
+    auto stradaConStrisciPedonale =  loadNode("myModel/roadTile_025.obj",scen,mapMat);
     auto stradaConPiccolaUscitaInBassoVerde = loadNode("ModelsRoads/roadTile_032.obj",scen,mapMat);
-    auto stradaConUscitaGrandeInBassoVerde = loadNode("ModelsRoads/roadTile_150.obj",scen,mapMat);
+    auto stradaConUscitaGrandeInBassoVerde = loadNode("myModel/roadTile_150.obj",scen,mapMat);
     auto stradaDrittaBordiVerde = loadNode("myModel/roadTile_142.obj",scen,mapMat);
     auto stradaDrittaSenzaUnBordoVerde= loadNode("ModelsRoads/roadTile_149.obj",scen,mapMat);
     auto stradaDrittaVerdeRialzata= loadNode("ModelsRoads/roadTile_183.obj",scen,mapMat);
     auto incrocioAQuattroVerde = loadNode("ModelsRoads/roadTile_141.obj",scen,mapMat);
     auto bloccoVerdePiano = loadNode("ModelsRoads/roadTile_168.obj",scen,mapMat);
+    auto stradaChiusa = loadNode("myModel/roadTile_038.obj",scen,mapMat);
+
 
     auto stradaConPiccolaUscitaInBassoBianca = loadNode("ModelsRoads/roadTile_121.obj",scen,mapMat);
     auto incrocioAQuattroBianco = loadNode("ModelsRoads/roadTile_121.obj",scen,mapMat);
@@ -156,45 +167,67 @@ void build_roads(scene* scen, std::map<string, material*>* mapMat, Graph* graph)
     auto stradaDrittaBianca = loadNode("myModel/roadTile_292.obj",scen,mapMat);
 
 
+    auto albero = loadNode("myModel/roadTile_019.obj",scen,mapMat);
+
     auto house = graph->nodes.at(graph->nodeStart);
 
     auto startNode = node{};
     auto stradeDritte = node{};
+    auto stradeConCurve = node{};
 
     add_multi_nodes_or(startNode,graph,{
-            {stradeDritte, {{}}}
+            {stradaConStrisciPedonale, {{}}},
     });
 
     auto terminal = node{};
 
     add_multi_nodes_or(stradeDritte, graph, {
-            {stradaDrittaBianca, {{1.0f,0,0}}},
-            {stradaDrittaBianca, {{1.0f,0,0}}},
-            {stradaDrittaBianca, {{1.0f,0,0}}},
-            {stradaDrittaBianca, {{1.0f,0,0}}},
-            {stradaDrittaBianca, {{1.0f,0,0}}},
-            {stradaDrittaBianca, {{1.0f,0,0}}},
-            {stradaDrittaBianca, {{1.0f,0,0}}},
-            {stradaDrittaBianca, {{1.0f,0,0}}},
-            {stradaDrittaBianca, {{1.0f,0,0}}},
-            {terminal,{}}
+            {stradaConStrisciPedonale, {}},
+            {terminal, {}},
+            {stradaConStrisciPedonale, {}}
+    });
+    add_multi_nodes_or(stradeConCurve, graph, {
+            {stradaConUscitaGrandeInBassoVerde, {}}
     });
 
-    add_multi_nodes_or(stradaDrittaBianca,graph,{
-            {stradeDritte, {}}
+    // Node Obj
+    add_multi_nodes_or(stradaConStrisciPedonale,graph,{
+            {stradeDritte, {{1,0,0}}},
+            {stradeConCurve, {{1,0,0},_90}}
     });
+    add_multi_nodes_and(stradaConStrisciPedonale,graph, {
+            {stradeDritte,{{1,0,0}}},
+            {house,{{0,0.2,-1.0f},_90}}
+    });
+    add_multi_nodes_and(stradaConStrisciPedonale,graph, {
+            {stradeDritte,{{1,0,0}}},
+            {albero,{{0.2,0.2,0.11f}}}
+    });
+    add_multi_nodes_and(stradaConStrisciPedonale,graph, {
+            {stradeDritte,{{1,0,0}}},
+            {house,{{0,0.2,-1.0f},_90}},
+            {albero,{{0.2,0.2,0.11f}}}
+    });
+
+
+    add_multi_nodes_and(stradaConUscitaGrandeInBassoVerde,graph,{
+            {stradeDritte,{{1,0,0}}},
+            {stradeDritte,{{0,0,1}, _90}}
+    });
+
+
+
+
+    /*
     add_multi_nodes_or(stradaDrittaVerdeRialzata,graph,{
-            {stradeDritte, {}}
+            {stradeDritte, {{0,0,1}}}
     });
     add_multi_nodes_or(stradaDrittaSenzaUnBordoVerde,graph,{
-            {stradeDritte, {}}
+            {stradeDritte, {{0,0,1}}}
     });
 
-    add_multi_nodes_and(stradaDrittaBianca,graph, {
-            {stradeDritte,{}},
-            {house,{{0,0.2,-1.0f},90.0f}}
-    });
 
+     */
 
     //incrocio a quattro
 
@@ -324,12 +357,19 @@ void build (scene* scn, Graph* graph, long inode,frame3f pos,rng_pcg32& rng) {
             auto framScale = scaling_frame3f(edge.transf.scale);
             newPos = transform_frame(newPos,framScale);
         }
-
-        if (edge.transf.rotation != 0.0f) {
-            auto f = rotation_frame3f(edge.transf.axesRotation, edge.transf.rotation * pif / 180.0f);
+        if (edge.transf.rotation != _0) {
+            auto angle = edge.transf.rotation * pif / 180.0f;
+            auto f = rotation_frame3f(edge.transf.axesRotation, angle);
             newPos = transform_frame(newPos,f);
             // Riposiziona l'oggetto nella posizione precedente alla rotazione
-            auto reposition = translation_frame3f({0,0,length(newPos.z)});
+            auto reposition = frame3f{};
+            if (edge.transf.rotation == _90) {
+                reposition = translation_frame3f({0,0,length(newPos.z)});
+            } else if (edge.transf.rotation == _180){
+                reposition = translation_frame3f({-length(newPos.x),0,length(newPos.z)});
+            } else if (edge.transf.rotation == _270) {
+                reposition = translation_frame3f({length(newPos.x),0,0});
+            }
             newPos = transform_frame(newPos,reposition);
         }
         build(scn,graph, edge.indexNode,newPos,rng);
