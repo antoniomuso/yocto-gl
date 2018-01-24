@@ -193,6 +193,7 @@ void build_roads(scene* scen, std::map<string, material*>* mapMat, Graph* graph)
     //auto stradaDrittaVerdeRialzata= loadNode("ModelsRoads/roadTile_183.obj",scen,mapMat);
     //auto incrocioAQuattroVerde = loadNode("ModelsRoads/roadTile_141.obj",scen,mapMat);
     //auto bloccoVerdePiano = loadNode("ModelsRoads/roadTile_168.obj",scen,mapMat);
+    auto stradaDrittaVerde = loadNode("myModel/roadTile_162.obj",scen,mapMat);
     auto stradaChiusa = loadNode("myModel/roadTile_038.obj",scen,mapMat);
 
 
@@ -220,12 +221,13 @@ void build_roads(scene* scen, std::map<string, material*>* mapMat, Graph* graph)
     auto terminal = node{};
 
     add_multi_nodes_or(stradeDritte, graph, {
+            {stradaDrittaVerde,{}},
             {stradaConStrisciPedonale, {}},
             {terminal, {}},
-            {stradaConStrisciPedonale, {}},
-            {stradaConStrisciPedonale, {}},
-            {stradaConStrisciPedonale, {}},
-            {stradaConStrisciPedonale, {}}
+            {stradaDrittaVerde,{}},
+            {stradaDrittaVerde,{}},
+            {stradaDrittaVerde,{}}
+
     });
     add_multi_nodes_or(stradeConCurve, graph, {
             {stradaConUscitaGrandeInBassoVerde, {}}
@@ -253,6 +255,27 @@ void build_roads(scene* scen, std::map<string, material*>* mapMat, Graph* graph)
             {house,{{0,0.2,-1.0f},_90}},
             {alberi,{{0.2,0.2,0.11f}}}
     });
+
+
+    // Strada Normale
+    add_multi_nodes_or(stradaDrittaVerde,graph,{
+            {stradeDritte, {{1,0,0}}},
+            {stradeConCurve, {{1,0,0},_90}}
+    });
+    add_multi_nodes_and(stradaDrittaVerde,graph, {
+            {stradeDritte,{{1,0,0}}},
+            {house,{{0,0.2,-1.0f},_90}}
+    });
+    add_multi_nodes_and(stradaDrittaVerde,graph, {
+            {stradeDritte,{{1,0,0}}},
+            {alberi,{{0.2,0.2,0.11f}}}
+    });
+    add_multi_nodes_and(stradaDrittaVerde,graph, {
+            {stradeDritte,{{1,0,0}}},
+            {house,{{0,0.2,-1.0f},_90}},
+            {alberi,{{0.2,0.2,0.11f}}}
+    });
+
 
 
     add_multi_nodes_and(stradaConUscitaGrandeInBassoVerde,graph,{
