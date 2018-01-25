@@ -35,8 +35,8 @@
       <file leaf-file-name="build_generator.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/apps/build_generator.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="642">
-              <caret line="253" column="25" lean-forward="false" selection-start-line="253" selection-start-column="25" selection-end-line="253" selection-end-column="25" />
+            <state relative-caret-position="446">
+              <caret line="594" column="90" lean-forward="false" selection-start-line="594" selection-start-column="90" selection-end-line="594" selection-end-column="90" />
               <folding />
             </state>
           </provider>
@@ -650,8 +650,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/build_generator.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="642">
-          <caret line="253" column="25" lean-forward="false" selection-start-line="253" selection-start-column="25" selection-end-line="253" selection-end-column="25" />
+        <state relative-caret-position="446">
+          <caret line="594" column="90" lean-forward="false" selection-start-line="594" selection-start-column="90" selection-end-line="594" selection-end-column="90" />
           <folding />
         </state>
       </provider>
