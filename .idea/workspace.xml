@@ -3,14 +3,14 @@
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true" buildAllGenerated="true">
     <generated>
       <config projectName="yocto-gl" targetName="ytestgen" />
-      <config projectName="yocto-gl" targetName="ytrace" />
-      <config projectName="yocto-gl" targetName="yimview" />
       <config projectName="yocto-gl" targetName="build_generator" />
-      <config projectName="yocto-gl" targetName="yitrace" />
-      <config projectName="yocto-gl" targetName="ygltfview" />
+      <config projectName="yocto-gl" targetName="yimview" />
       <config projectName="yocto-gl" targetName="yview" />
-      <config projectName="yocto-gl" targetName="yocto_gl" />
+      <config projectName="yocto-gl" targetName="ytrace" />
+      <config projectName="yocto-gl" targetName="ygltfview" />
+      <config projectName="yocto-gl" targetName="yitrace" />
       <config projectName="yocto-gl" targetName="yimproc" />
+      <config projectName="yocto-gl" targetName="yocto_gl" />
       <config projectName="yocto-gl" targetName="yscnproc" />
     </generated>
   </component>
@@ -35,8 +35,8 @@
       <file leaf-file-name="build_generator.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/apps/build_generator.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="116">
-              <caret line="299" column="54" lean-forward="false" selection-start-line="299" selection-start-column="54" selection-end-line="299" selection-end-column="54" />
+            <state relative-caret-position="26">
+              <caret line="158" column="60" lean-forward="false" selection-start-line="158" selection-start-column="60" selection-end-line="158" selection-end-column="60" />
               <folding />
             </state>
           </provider>
@@ -45,7 +45,7 @@
       <file leaf-file-name="yocto_gl.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/yocto/yocto_gl.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-289">
+            <state relative-caret-position="181506">
               <caret line="6981" column="7" lean-forward="false" selection-start-line="6981" selection-start-column="7" selection-end-line="6981" selection-end-column="7" />
               <folding />
             </state>
@@ -55,7 +55,7 @@
       <file leaf-file-name="yocto_gltf.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/yocto/yocto_gltf.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="870">
+            <state relative-caret-position="30056">
               <caret line="1156" column="26" lean-forward="false" selection-start-line="1156" selection-start-column="22" selection-end-line="1156" selection-end-column="26" />
               <folding />
             </state>
@@ -236,15 +236,15 @@
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2739726" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.341412" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15806112" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15806112" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.02528978" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2739726" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -611,7 +611,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="603">
           <caret line="27" column="29" lean-forward="false" selection-start-line="27" selection-start-column="29" selection-end-line="27" selection-end-column="29" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -619,13 +618,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="186">
           <caret line="184" column="0" lean-forward="false" selection-start-line="184" selection-start-column="0" selection-end-line="184" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/yocto/yocto_gltf.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="870">
+        <state relative-caret-position="30056">
           <caret line="1156" column="26" lean-forward="false" selection-start-line="1156" selection-start-column="22" selection-end-line="1156" selection-end-column="26" />
           <folding />
         </state>
@@ -633,7 +631,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/yocto/yocto_gl.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-289">
+        <state relative-caret-position="181506">
           <caret line="6981" column="7" lean-forward="false" selection-start-line="6981" selection-start-column="7" selection-end-line="6981" selection-end-column="7" />
           <folding />
         </state>
@@ -641,8 +639,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/build_generator.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="116">
-          <caret line="299" column="54" lean-forward="false" selection-start-line="299" selection-start-column="54" selection-end-line="299" selection-end-column="54" />
+        <state relative-caret-position="26">
+          <caret line="158" column="60" lean-forward="false" selection-start-line="158" selection-start-column="60" selection-end-line="158" selection-end-column="60" />
           <folding />
         </state>
       </provider>
