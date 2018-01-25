@@ -13,6 +13,16 @@ enum angles {
     _270 = 270,
 };
 
+struct Move {
+    vec3f Left = {};
+    vec3f Right = {};
+    vec3f Forward = {};
+    vec3f Back = {};
+    vec3f NotMove = {};
+
+};
+
+
 struct position_matrix {
     vector<bool>* pos;
     unsigned long h;
@@ -36,10 +46,12 @@ struct position_matrix {
     }
 };
 
+
+
 struct transform {
+    vec3f move ;
     vec3f constanValue = {0,0,0};
     angles rotation = _0;
-    vec3f axesRotation = {0,1,0};
     vec3f scale = {0,0,0};
 };
 
@@ -58,6 +70,13 @@ struct node {
 struct  Graph {
     vector<node> nodes;
     long nodeStart = -1;
+    Move unit = {
+            {0,0,-1},
+            {0,0,1},
+            {1,0,0},
+            {-1,0,0},
+            {0,0,0}
+    };
 };
 
 // Add a istance on scene
@@ -178,7 +197,69 @@ angles getNewAngle(angles a1, angles a2) {
     else return _270;
 }
 
-void build (scene* scn, Graph* graph, long inode,frame3f pos,rng_pcg32& rng, position_matrix& blockPosition,angles rot, vec3f matPos) {
+bool collisionControll (Graph* graph,angles rot, vec2i& matPos, edge edge, position_matrix& position) {
+
+    if(edge.transf.move == graph->unit.NotMove ) return false;
+
+    if (rot == _0) {
+        if (edge.transf.move == graph->unit.Right) {
+            matPos.x += 1;
+        }
+        else if (edge.transf.move == graph->unit.Left) {
+            matPos.x += -1;
+        }
+        else if (edge.transf.move == graph->unit.Forward) {
+            matPos.y += -1;
+        }
+        else if (edge.transf.move == graph->unit.Back) {
+            matPos.y += 1;
+        }
+    } else if (rot == _90) {
+        if (edge.transf.move == graph->unit.Right) {
+            matPos.y += -1;
+        }
+        else if (edge.transf.move == graph->unit.Left) {
+            matPos.y += +1;
+        }
+        else if (edge.transf.move == graph->unit.Forward) {
+            matPos.x += -1;
+        }
+        else if (edge.transf.move == graph->unit.Back) {
+            matPos.x += 1;
+        }
+    } else if (rot == _180) {
+        if (edge.transf.move == graph->unit.Right) {
+            matPos.x += -1;
+        }
+        else if (edge.transf.move == graph->unit.Left) {
+            matPos.x += 1;
+        }
+        else if (edge.transf.move == graph->unit.Forward) {
+            matPos.y += 1;
+        }
+        else if (edge.transf.move == graph->unit.Back) {
+            matPos.y += -1;
+        }
+    } else {
+        if (edge.transf.move == graph->unit.Right) {
+            matPos.y += 1;
+        }
+        else if (edge.transf.move == graph->unit.Left) {
+            matPos.y += -1;
+        }
+        else if (edge.transf.move == graph->unit.Forward) {
+            matPos.x += 1;
+        }
+        else if (edge.transf.move == graph->unit.Back) {
+            matPos.x += -1;
+        }
+
+    }
+    return (!position.isGoodPos(matPos.x,matPos.y) || position.at(matPos.x,matPos.y));
+}
+
+
+void build (scene* scn, Graph* graph, long inode,frame3f pos,rng_pcg32& rng, position_matrix& blockPosition,angles rot, vec2i matPos) {
     auto node = graph->nodes.at(inode);
     if (node.shapes.size() != 0) add_node_to_scene(scn,node, pos);
     if (node.adj.size() == 0 ) return ;
@@ -187,49 +268,13 @@ void build (scene* scn, Graph* graph, long inode,frame3f pos,rng_pcg32& rng, pos
     for (auto edge : *(node.adj.at(ir)) ) {
 
         auto posMat = matPos;
-
-        if (rot == _0) {
-            if (edge.transf.constanValue.z == 1.0f || edge.transf.constanValue.z == -1.0f) {
-                posMat.x += edge.transf.constanValue.z;
-            }
-            if (edge.transf.constanValue.x == 1.0f || edge.transf.constanValue.x == -1.0f) {
-                posMat.y += -edge.transf.constanValue.x;
-            }
-        } else if (rot == _90) {
-            if (edge.transf.constanValue.z == 1.0f || edge.transf.constanValue.z == -1.0f) {
-                posMat.y += -edge.transf.constanValue.z;
-            }
-            if (edge.transf.constanValue.x == 1.0f || edge.transf.constanValue.x == -1.0f) {
-                posMat.x += -edge.transf.constanValue.x;
-            }
-        } else if (rot == _180) {
-            if (edge.transf.constanValue.z == 1.0f || edge.transf.constanValue.z == -1.0f) {
-                posMat.x += -edge.transf.constanValue.z;
-            }
-            if (edge.transf.constanValue.x == 1.0f || edge.transf.constanValue.x == -1.0f) {
-                posMat.y += edge.transf.constanValue.x;
-            }
-        } else {
-            if (edge.transf.constanValue.z == 1.0f || edge.transf.constanValue.z == -1.0f) {
-                posMat.y += edge.transf.constanValue.z;
-            }
-            if (edge.transf.constanValue.x == 1.0f || edge.transf.constanValue.x == -1.0f) {
-                posMat.x += edge.transf.constanValue.x;
-            }
-
-        }
-
-        if (posMat != matPos && (!blockPosition.isGoodPos(posMat.x,posMat.y) || blockPosition.at(posMat.x,posMat.y))) {
+        if (collisionControll(graph,rot,posMat,edge,blockPosition)) {
             continue;
         }
-
         blockPosition.set(posMat.x,posMat.y, true);
 
-
-
-
         auto newPos = pos;
-        auto framTrasl = translation_frame3f(edge.transf.constanValue);
+        auto framTrasl = translation_frame3f(edge.transf.constanValue + edge.transf.move);
         newPos = transform_frame(newPos,framTrasl);
         auto newAngle = rot;
         if (edge.transf.scale != vec3f{0,0,0}) {
@@ -238,7 +283,7 @@ void build (scene* scn, Graph* graph, long inode,frame3f pos,rng_pcg32& rng, pos
         }
         if (edge.transf.rotation != _0) {
             auto angle = edge.transf.rotation * pif / 180.0f;
-            auto f = rotation_frame3f(edge.transf.axesRotation, angle);
+            auto f = rotation_frame3f({0,1,0}, angle);
             newPos = transform_frame(newPos,f);
             // Riposiziona l'oggetto nella posizione precedente alla rotazione
             auto reposition = frame3f{};
@@ -262,7 +307,7 @@ void build (scene* scn, Graph* graph, long inode,frame3f pos,rng_pcg32& rng, pos
 void callBuild(scene* scn, Graph* graph, long inode,
                frame3f pos, rng_pcg32 rng, unsigned long height, unsigned long width) {
     auto blockPosition = position_matrix(height,width);
-    build(scn,graph,inode,pos,rng,blockPosition,_0, {height-1.0f, width-1.0f,0});
+    build(scn,graph,inode,pos,rng,blockPosition,_0, {height-1.0f, width-1.0f});
 }
 
 void build_roads(scene* scen, std::map<string, material*>* mapMat, Graph* graph) {
@@ -314,54 +359,54 @@ void build_roads(scene* scen, std::map<string, material*>* mapMat, Graph* graph)
             {stradaConUscitaGrandeInBassoVerde, {}}
     });
     add_multi_nodes_or(alberi, graph, {
-            {albero, {}},
-            {alberoBig,{{0,0,0.125f}}}
+            {albero, {graph->unit.NotMove}},
+            {alberoBig,{graph->unit.NotMove,{0,0,0.125f}}}
     });
 
     // Node Obj
     add_multi_nodes_or(stradaConStrisciPedonale,graph,{
-            {stradeDritte, {{1,0,0}}},
-            {stradeConCurve, {{1,0,0},_90}}
+            {stradeDritte, {graph->unit.Forward}},
+            {stradeConCurve, {graph->unit.Forward,{0,0,0},_90}}
     });
     add_multi_nodes_and(stradaConStrisciPedonale,graph, {
-            {stradeDritte,{{1,0,0}}},
-            {house,{{0,0.2,-1.0f},_90}}
+            {stradeDritte,{graph->unit.Forward}},
+            {house,{graph->unit.Left,{0,0.2,0},_90}}
     });
     add_multi_nodes_and(stradaConStrisciPedonale,graph, {
-            {stradeDritte,{{1,0,0}}},
-            {alberi,{{0.2,0.2,0.11f}}}
+            {stradeDritte,{graph->unit.Forward}},
+            {alberi,{graph->unit.NotMove,{0.2,0.2,0.11f}}}
     });
     add_multi_nodes_and(stradaConStrisciPedonale,graph, {
-            {stradeDritte,{{1,0,0}}},
-            {house,{{0,0.2,-1.0f},_90}},
-            {alberi,{{0.2,0.2,0.11f}}}
+            {stradeDritte,{graph->unit.Forward}},
+            {house,{graph->unit.Left,{0,0.2,0},_90}},
+            {alberi,{graph->unit.NotMove,{0.2,0.2,0.11f}}}
     });
 
 
     // Strada Normale
     add_multi_nodes_or(stradaDrittaVerde,graph,{
-            {stradeDritte, {{1,0,0}}},
-            {stradeConCurve, {{1,0,0},_90}}
+            {stradeDritte, {graph->unit.Forward}},
+            {stradeConCurve, {graph->unit.Forward,{0,0,0},_90}}
     });
     add_multi_nodes_and(stradaDrittaVerde,graph, {
-            {stradeDritte,{{1,0,0}}},
-            {house,{{0,0.2,-1.0f},_90}}
+            {stradeDritte,{graph->unit.Forward}},
+            {house,{graph->unit.Left,{0,0.2,0},_90}}
     });
     add_multi_nodes_and(stradaDrittaVerde,graph, {
-            {stradeDritte,{{1,0,0}}},
-            {alberi,{{0.2,0.2,0.11f}}}
+            {stradeDritte,{graph->unit.Forward}},
+            {alberi,{graph->unit.NotMove,{0.2,0.2,0.11f}}}
     });
     add_multi_nodes_and(stradaDrittaVerde,graph, {
-            {stradeDritte,{{1,0,0}}},
-            {house,{{0,0.2,-1.0f},_90}},
-            {alberi,{{0.2,0.2,0.11f}}}
+            {stradeDritte,{graph->unit.Forward}},
+            {house,{graph->unit.Left,{0,0.2,0},_90}},
+            {alberi,{graph->unit.NotMove,{0.2,0.2,0.11f}}}
     });
 
 
 
     add_multi_nodes_and(stradaConUscitaGrandeInBassoVerde,graph,{
-            {stradeDritte,{{1,0,0}}},
-            {stradeDritte,{{0,0,1}, _270}}
+            {stradeDritte,{graph->unit.Forward}},
+            {stradeDritte,{graph->unit.Right,{0,0,0}, _270}}
     });
 
 
@@ -374,6 +419,7 @@ void build_roads(scene* scen, std::map<string, material*>* mapMat, Graph* graph)
 
 Graph* build_graph_houses(scene* scen, std::map<string, material*>* mapMat) {
     auto graph = new Graph();
+
     auto startNode = node{};
 
     // load houses
@@ -415,23 +461,23 @@ Graph* build_graph_houses(scene* scen, std::map<string, material*>* mapMat) {
 
     add_multi_nodes_or(tetti, graph, {
             {tetto, {}},
-            {tettoConFinestra, {{1, 0, 0}}},
-            {tettoTriangolo, {}},
+            {tettoConFinestra, {graph->unit.NotMove,{1, 0, 0}}},
+            {tettoTriangolo, {graph->unit.NotMove}},
             //{tetto2,{{1,0,0}}},
             //{tetto3,{{1,0,0}}},
-            {tetto4,{{1,0,0}}}
+            {tetto4,{graph->unit.NotMove,{1,0,0}}}
     });
     add_multi_nodes_or(piani, graph, {
-            {pianoFinestre,  {}},
-            {pianoFinestrone, {}},
-            {pianoFinestreQuadrate, {}},
-            {pianoConBalcone,{}},
-            {pianoConFinestreCoperte,{}}
+            {pianoFinestre,  {graph->unit.NotMove}},
+            {pianoFinestrone, {graph->unit.NotMove}},
+            {pianoFinestreQuadrate, {graph->unit.NotMove}},
+            {pianoConBalcone,{graph->unit.NotMove}},
+            {pianoConFinestreCoperte,{graph->unit.NotMove}}
     });
 
     //Metto che la variabile di start parte con una base
     add_multi_nodes_or(startNode, graph, {
-            {basi,{}}
+            {basi,{graph->unit.NotMove}}
     });
 
 
@@ -440,46 +486,46 @@ Graph* build_graph_houses(scene* scen, std::map<string, material*>* mapMat) {
 
     //Varaibile BaseConScalinata
     add_multi_nodes_or(BaseConScalinata, graph, {
-            {piani,  {{0, 0.8, 0}}},
-            {tetti, {{0, 0.8, 0}}}
+            {piani,  {graph->unit.NotMove,{0, 0.8, 0}}},
+            {tetti, {graph->unit.NotMove,{0, 0.8, 0}}}
     });
 
     add_multi_nodes_or(BaseConScalinataEFinestre, graph, {
-            {piani,  {{0, 0.8, 0}}},
-            {tetti, {{0, 0.8, 0}}}
+            {piani,  {graph->unit.NotMove,{0, 0.8, 0}}},
+            {tetti, {graph->unit.NotMove,{0, 0.8, 0}}}
     });
 
 
     //Variabili piani
     add_multi_nodes_or(pianoFinestre, graph, {
-            {tetti, {{0, 0.6, 0}}},
-            {piani,  {{0, 0.6, 0}}}
+            {tetti, {graph->unit.NotMove,{0, 0.6, 0}}},
+            {piani,  {graph->unit.NotMove,{0, 0.6, 0}}}
     });
 
     add_multi_nodes_or(pianoFinestrone, graph, {
-            {tetti, {{0, 0.6, 0}}},
-            {piani,  {{0, 0.6, 0}}}
+            {tetti, {graph->unit.NotMove,{0, 0.6, 0}}},
+            {piani,  {graph->unit.NotMove,{0, 0.6, 0}}}
     });
 
     add_multi_nodes_or(pianoFinestreQuadrate, graph, {
-            {tetti, {{0, 0.6, 0}}},
-            {piani,  {{0, 0.6, 0}}}
+            {tetti, {graph->unit.NotMove,{0, 0.6, 0}}},
+            {piani,  {graph->unit.NotMove,{0, 0.6, 0}}}
     });
 
     add_multi_nodes_or(pianoConBalcone, graph, {
-            {tetti, {{0, 0.6, 0}}},
-            {piani,  {{0, 0.6, 0}}}
+            {tetti, {graph->unit.NotMove,{0, 0.6, 0}}},
+            {piani,  {graph->unit.NotMove,{0, 0.6, 0}}}
     });
 
     add_multi_nodes_or(pianoConFinestreCoperte, graph, {
-            {tetti, {{0, 0.6, 0}}},
-            {piani,  {{0, 0.6, 0}}}
+            {tetti, {graph->unit.NotMove,{0, 0.6, 0}}},
+            {piani,  {graph->unit.NotMove,{0, 0.6, 0}}}
     });
 
     // Variabile Base con finestre
     add_multi_nodes_or(baseConFinestreEPortone, graph, {
-            {tetti, {{0, 0.6, 0}}},
-            {piani, {{0, 0.6, 0}}}
+            {tetti, {graph->unit.NotMove,{0, 0.6, 0}}},
+            {piani, {graph->unit.NotMove,{0, 0.6, 0}}}
     });
 
 

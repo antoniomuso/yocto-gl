@@ -35,8 +35,8 @@
       <file leaf-file-name="build_generator.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/apps/build_generator.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="208">
-              <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+            <state relative-caret-position="642">
+              <caret line="253" column="25" lean-forward="false" selection-start-line="253" selection-start-column="25" selection-end-line="253" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -65,7 +65,7 @@
       <file leaf-file-name="yocto_gltf.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/yocto/yocto_gltf.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30056">
+            <state relative-caret-position="720">
               <caret line="1156" column="26" lean-forward="false" selection-start-line="1156" selection-start-column="22" selection-end-line="1156" selection-end-column="26" />
               <folding />
             </state>
@@ -76,8 +76,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>load_scene</find>
-      <find>load</find>
       <find>triangle</find>
       <find>join(</find>
       <find>li</find>
@@ -106,6 +104,8 @@
       <find>NULL</find>
       <find>Models</find>
       <find>180</find>
+      <find>axesRot</find>
+      <find>or</find>
     </findStrings>
   </component>
   <component name="IdeDocumentHistory">
@@ -624,10 +624,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/yocto/yocto_gltf.cpp">
+    <entry file="file:///usr/include/c++/7/bits/stl_vector.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30056">
-          <caret line="1156" column="26" lean-forward="false" selection-start-line="1156" selection-start-column="22" selection-end-line="1156" selection-end-column="26" />
+        <state relative-caret-position="229">
+          <caret line="258" column="6" lean-forward="false" selection-start-line="258" selection-start-column="6" selection-end-line="258" selection-end-column="6" />
           <folding />
         </state>
       </provider>
@@ -640,18 +640,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/include/c++/7/bits/stl_vector.h">
+    <entry file="file://$PROJECT_DIR$/yocto/yocto_gltf.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="229">
-          <caret line="258" column="6" lean-forward="false" selection-start-line="258" selection-start-column="6" selection-end-line="258" selection-end-column="6" />
+        <state relative-caret-position="720">
+          <caret line="1156" column="26" lean-forward="false" selection-start-line="1156" selection-start-column="22" selection-end-line="1156" selection-end-column="26" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/build_generator.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        <state relative-caret-position="642">
+          <caret line="253" column="25" lean-forward="false" selection-start-line="253" selection-start-column="25" selection-end-line="253" selection-end-column="25" />
           <folding />
         </state>
       </provider>
