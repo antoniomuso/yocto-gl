@@ -7,11 +7,33 @@
 using namespace ygl;
 
 enum angles {
-
     _0 =0,
     _90 =90,
     _180 = 180,
     _270 = 270,
+};
+
+struct position_matrix {
+    vector<bool>* pos;
+    unsigned long h;
+    unsigned long w;
+    position_matrix(unsigned long height, unsigned long width) {
+        h = height;
+        w = width;
+        pos = new vector<bool>(height * width);
+    }
+    bool at (unsigned long x, unsigned long y) {
+        if (x >= w || y >= h) throw false;
+        return pos->at(y * w + x );
+    }
+    void set (unsigned long x, unsigned long y, bool value) {
+        if (x >= w || y >= h) throw false;
+        pos->at(y * w + x ) = value;
+    }
+    bool isGoodPos (unsigned long x, unsigned long y) {
+        if (x >= w || y >= h) return false;
+        return true;
+    }
 };
 
 struct transform {
@@ -147,18 +169,69 @@ void add_multi_nodes_and(node &nod, Graph *graph, vector<pair<node &, transform>
 
 }
 
-void build (scene* scn, Graph* graph, long inode,frame3f pos,rng_pcg32& rng) {
+angles getNewAngle(angles a1, angles a2) {
+    auto newAngles = a1 + a2;
+    newAngles = newAngles % 360;
+    if (newAngles == _0) return _0;
+    else if (newAngles == _90) return _90;
+    else if (newAngles == _180) return _180;
+    else return _270;
+}
 
+void build (scene* scn, Graph* graph, long inode,frame3f pos,rng_pcg32& rng, position_matrix& blockPosition,angles rot, vec3f matPos) {
     auto node = graph->nodes.at(inode);
     if (node.shapes.size() != 0) add_node_to_scene(scn,node, pos);
     if (node.adj.size() == 0 ) return ;
     auto ir = next_rand1i(rng,node.adj.size());
     print("value gen: {} values: {} \n",ir, node.adj.size()-1);
     for (auto edge : *(node.adj.at(ir)) ) {
+
+        auto posMat = matPos;
+
+        if (rot == _0) {
+            if (edge.transf.constanValue.z == 1.0f || edge.transf.constanValue.z == -1.0f) {
+                posMat.x += edge.transf.constanValue.z;
+            }
+            if (edge.transf.constanValue.x == 1.0f || edge.transf.constanValue.x == -1.0f) {
+                posMat.y += -edge.transf.constanValue.x;
+            }
+        } else if (rot == _90) {
+            if (edge.transf.constanValue.z == 1.0f || edge.transf.constanValue.z == -1.0f) {
+                posMat.y += -edge.transf.constanValue.z;
+            }
+            if (edge.transf.constanValue.x == 1.0f || edge.transf.constanValue.x == -1.0f) {
+                posMat.x += -edge.transf.constanValue.x;
+            }
+        } else if (rot == _180) {
+            if (edge.transf.constanValue.z == 1.0f || edge.transf.constanValue.z == -1.0f) {
+                posMat.x += -edge.transf.constanValue.z;
+            }
+            if (edge.transf.constanValue.x == 1.0f || edge.transf.constanValue.x == -1.0f) {
+                posMat.y += edge.transf.constanValue.x;
+            }
+        } else {
+            if (edge.transf.constanValue.z == 1.0f || edge.transf.constanValue.z == -1.0f) {
+                posMat.y += edge.transf.constanValue.z;
+            }
+            if (edge.transf.constanValue.x == 1.0f || edge.transf.constanValue.x == -1.0f) {
+                posMat.x += edge.transf.constanValue.x;
+            }
+
+        }
+
+        if (posMat != matPos && (!blockPosition.isGoodPos(posMat.x,posMat.y) || blockPosition.at(posMat.x,posMat.y))) {
+            continue;
+        }
+
+        blockPosition.set(posMat.x,posMat.y, true);
+
+
+
+
         auto newPos = pos;
         auto framTrasl = translation_frame3f(edge.transf.constanValue);
         newPos = transform_frame(newPos,framTrasl);
-
+        auto newAngle = rot;
         if (edge.transf.scale != vec3f{0,0,0}) {
             auto framScale = scaling_frame3f(edge.transf.scale);
             newPos = transform_frame(newPos,framScale);
@@ -170,17 +243,26 @@ void build (scene* scn, Graph* graph, long inode,frame3f pos,rng_pcg32& rng) {
             // Riposiziona l'oggetto nella posizione precedente alla rotazione
             auto reposition = frame3f{};
             if (edge.transf.rotation == _90) {
+                newAngle = getNewAngle(rot,_90);
                 reposition = translation_frame3f({0,0,length(newPos.z)});
             } else if (edge.transf.rotation == _180){
+                newAngle = getNewAngle(rot,_180);
                 reposition = translation_frame3f({-length(newPos.x),0,length(newPos.z)});
             } else if (edge.transf.rotation == _270) {
+                newAngle = getNewAngle(rot,_270);
                 reposition = translation_frame3f({-length(newPos.x),0,0});
             }
             newPos = transform_frame(newPos,reposition);
         }
-        build(scn,graph, edge.indexNode,newPos,rng);
+        build(scn,graph, edge.indexNode,newPos,rng,blockPosition,newAngle,posMat);
     }
 
+}
+
+void callBuild(scene* scn, Graph* graph, long inode,
+               frame3f pos, rng_pcg32 rng, unsigned long height, unsigned long width) {
+    auto blockPosition = position_matrix(height,width);
+    build(scn,graph,inode,pos,rng,blockPosition,_0, {height-1.0f, width-1.0f,0});
 }
 
 void build_roads(scene* scen, std::map<string, material*>* mapMat, Graph* graph) {
@@ -223,7 +305,6 @@ void build_roads(scene* scen, std::map<string, material*>* mapMat, Graph* graph)
     add_multi_nodes_or(stradeDritte, graph, {
             {stradaDrittaVerde,{}},
             {stradaConStrisciPedonale, {}},
-            {terminal, {}},
             {stradaDrittaVerde,{}},
             {stradaDrittaVerde,{}},
             {stradaDrittaVerde,{}}
@@ -465,7 +546,7 @@ int main () {
     build_roads(scen,mapMat,graph);
     auto rng =  init_rng(0, static_cast<uint64_t>(time(NULL)));
 
-    build(scen,graph,graph->nodeStart,identity_frame3f,rng);
+    callBuild(scen,graph,graph->nodeStart,{{1,0,0},{0,1,0},{0,0,1},{-25,0,+25}},rng, 50,50);
     /*
     graph.nodes.push_back(loadNode("Models/modularBuildings_010.obj", scen, mapMat));
     auto nod = loadNode("Models/modularBuildings_059.obj", scen, mapMat);
